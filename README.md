@@ -1,4 +1,4 @@
 brewscale
 =========
 
-Javalabra harjoitustyö (kevät 2014)
+Javalabra harjoitustyö  (K-2014)
