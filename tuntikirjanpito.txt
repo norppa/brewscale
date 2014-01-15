@@ -1,0 +1,3 @@
+Ensimmäinen deadline:
+14.1.: 2h GitHubiin tutustuminen, tunnusten ja SSH-avainten luonti
+15.1.: 2,5h Netbeansin (uudelleen) asennus, JDK:n kanssa säätäminen, projektin luominen. Palautus.

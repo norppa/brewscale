@@ -1,0 +1,11 @@
+Aihe: Kotioluen tekoon tarkoitettu reseptiskaalain
+Ohjelma muuttaa annetun olutreseptin joko suuremmaksi tai pienemmäksi eräksi ja muuttaa vanhan maailman yksiköt SI-järjestelmän yksiköiksi. Reseptit voidaan tallettaa myöhempää käyttöä varten.  
+
+Käyttäjät: Kotiolutintoilijat
+
+Toiminnot:
+Reseptin lisääminen
+Reseptin skaalaaminen
+Reseptin tallettaminen
+Reseptin lataaminen
+
