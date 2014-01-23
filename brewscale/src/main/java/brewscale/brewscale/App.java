@@ -8,32 +8,24 @@ public class App
 {
     public static void main( String[] args ) {
         Resepti resepti = new Resepti("Tester Ale", 10);
-        Mallas m1 = new Mallas("Pale Ale", 1.2);
-        Mallas m2 = new Mallas("Crystal 100", 0.6);
-        Mallas m3 = new Mallas("Roast Barley", 0.1);
+        Mallas m1 = new Mallas("Pale Ale", 1.0, 2);
+        Mallas m2 = new Mallas("Crystal 100", 2.0, 2);
         resepti.lisaaMallas(m1);
         resepti.lisaaMallas(m2);
-        resepti.lisaaMallas(m3);
         
-        Humala h1 = new Humala("Hallertau", 12, 5.5);
-        Humala h2 = new Humala("Fuggles", 6, 7.0);
+        Humala h1 = new Humala("Hallertau", 1, 1, 5.5);
+        Humala h2 = new Humala("Fuggles", 15,0, 7.0);
         resepti.lisaaHumala(h1);
         resepti.lisaaHumala(h2);
         
-        Aines a1 = new Aines("Sokeri", 0.5);
+        Aines a1 = new Aines("Sokeri", 500);
         resepti.lisaaAines(a1);
         
         System.out.println(resepti.reseptiTeksti());
         Brewscale b = new Brewscale(resepti);
-        System.out.println(b.skaalaa(2).reseptiTeksti());
         
-        resepti = new Resepti("Testiresepti", 10);
-        Mallas m = new Mallas("Mallas", 5.0);
-        resepti.lisaaMallas(m);
-        Humala h = new Humala("Humala", 5.0, 5.0);
-        resepti.lisaaHumala(h);
-        Aines a = new Aines("Aines", 5.0);
-        resepti.lisaaAines(a);
-        System.out.println(resepti.reseptiTeksti());
+        Resepti uusi = b.muutaGrammoiksi();
+        System.out.println(uusi.reseptiTeksti());
+
     }
 }

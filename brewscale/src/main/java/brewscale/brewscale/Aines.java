@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package brewscale.brewscale;
 
 /**
@@ -11,26 +10,34 @@ package brewscale.brewscale;
  * @author jtthaavi@cs
  */
 public class Aines {
-    
+
     private String nimi;
     private double maara;
-    private int yksikko;
-    
-    public Aines(String nimi, double maara) {
+    private int yksikko; // 0 = g, 1 = oz, 2 = lb
+
+    public Aines(String nimi, double maara, int yksikko) {
         this.nimi = nimi;
         if (maara < 0) {
             maara = 0;
         }
         this.maara = maara;
-        this.yksikko = 0;
+        this.yksikko = yksikko;
     }
-    
+
+    public Aines(String nimi, double maara) {
+        this(nimi, maara, 0);
+    }
+
     public String getNimi() {
         return nimi;
     }
-    
+
     public double getMaara() {
         return maara;
     }
     
+    public int getYksikko() {
+        return yksikko;
+    }
+
 }

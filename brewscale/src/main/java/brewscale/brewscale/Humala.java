@@ -14,8 +14,8 @@ public class Humala extends Aines {
     
     private double alphaAcid;
     
-    public Humala(String nimi, double maara, double alphaAcid) {
-        super(nimi, maara);
+    public Humala(String nimi, double maara, int yksikko, double alphaAcid) {
+        super(nimi, maara, yksikko);
         this.alphaAcid = alphaAcid;
     }
     

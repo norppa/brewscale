@@ -25,21 +25,6 @@ public class BrewscaleTest extends TestCase {
         super.setUp();
 
         resepti = new Resepti("Testiresepti", 10);
-        Mallas m1 = new Mallas("Mallas 1", 1.1);
-        Mallas m2 = new Mallas("Mallas 2", 2.22);
-        Mallas m3 = new Mallas("Mallas 3", 3.333);
-        resepti.lisaaMallas(m1);
-        resepti.lisaaMallas(m2);
-        resepti.lisaaMallas(m3);
-
-        Humala h1 = new Humala("Humala 1", 0.5, 5.0);
-        Humala h2 = new Humala("Humala 2", 1.0, 7.0);
-        resepti.lisaaHumala(h1);
-        resepti.lisaaHumala(h2);
-
-        Aines a1 = new Aines("Aines 1", 0.5);
-        resepti.lisaaAines(a1);
-
         brewscale = new Brewscale(resepti);
     }
 

@@ -15,20 +15,25 @@ public class Resepti {
 
     private String nimi, muistiinpanot;
     private double koko;
+    private int kokoYksikko;
     private ArrayList<Mallas> maltaat;
     private ArrayList<Humala> humalat;
     private ArrayList<Aines> muutAinekset;
     private ArrayList<Aines> ainekset;
 
-    public Resepti(String nimi, double koko) {
+    public Resepti(String nimi, double koko, int kokoYksikko) {
         this.nimi = nimi;
         this.koko = koko;
+        this.kokoYksikko = kokoYksikko;
         this.muistiinpanot = "";
         this.maltaat = new ArrayList<Mallas>();
         this.humalat = new ArrayList<Humala>();
         this.muutAinekset = new ArrayList<Aines>();
         this.ainekset = new ArrayList<Aines>();
+    }
 
+    public Resepti(String nimi, double koko) {
+        this(nimi, koko, 0);
     }
 
     public void lisaaMallas(Mallas lisattava) {
@@ -42,7 +47,7 @@ public class Resepti {
     public void lisaaAines(Aines lisattava) {
         muutAinekset.add(lisattava);
     }
-    
+
     public void lisaaMuistiinpano(String mp) {
         muistiinpanot += mp + "\n";
     }
@@ -66,7 +71,11 @@ public class Resepti {
     public double getKoko() {
         return koko;
     }
-    
+
+    public int getKokoYksikko() {
+        return kokoYksikko;
+    }
+
     public String muistiinpanot() {
         return muistiinpanot;
     }
@@ -85,11 +94,19 @@ public class Resepti {
         for (Aines a : muutAinekset) {
             reseptiTeksti += a.getMaara() + " " + a.getNimi() + "\n";
         }
-        
+
         return reseptiTeksti;
     }
 
     public String toString() {
-        return nimi + " (" + koko + " l)";
+        String str = nimi + " (" + koko;
+        if (kokoYksikko == 0) 
+            str += " g)";
+        if (kokoYksikko == 1) 
+            str += " oz.)";
+        if (kokoYksikko == 2)
+            str += " lbs.";
+        return str;
     }
+
 }

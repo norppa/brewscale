@@ -12,8 +12,8 @@ package brewscale.brewscale;
  */
 public class Mallas extends Aines {
     
-    public Mallas(String nimi, double maara) {
-        super(nimi, maara);
+    public Mallas(String nimi, double maara, int yksikko) {
+        super(nimi, maara, yksikko);
     }
     
 }
