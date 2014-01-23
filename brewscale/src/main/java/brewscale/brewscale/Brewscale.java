@@ -28,6 +28,11 @@ public class Brewscale {
     }
 
     public Resepti skaalaa(double kerroin) {
+        
+        if (kerroin < 0) {
+            return resepti;
+        }
+        
         Resepti uusiResepti = new Resepti(resepti.getNimi(), resepti.getKoko() * kerroin);
 
         ArrayList<Mallas> maltaat = resepti.getMaltaat();

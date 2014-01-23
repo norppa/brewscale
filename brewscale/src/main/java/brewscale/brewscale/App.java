@@ -26,5 +26,14 @@ public class App
         System.out.println(resepti.reseptiTeksti());
         Brewscale b = new Brewscale(resepti);
         System.out.println(b.skaalaa(2).reseptiTeksti());
+        
+        resepti = new Resepti("Testiresepti", 10);
+        Mallas m = new Mallas("Mallas", 5.0);
+        resepti.lisaaMallas(m);
+        Humala h = new Humala("Humala", 5.0, 5.0);
+        resepti.lisaaHumala(h);
+        Aines a = new Aines("Aines", 5.0);
+        resepti.lisaaAines(a);
+        System.out.println(resepti.reseptiTeksti());
     }
 }

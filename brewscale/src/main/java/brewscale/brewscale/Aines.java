@@ -18,6 +18,9 @@ public class Aines {
     
     public Aines(String nimi, double maara) {
         this.nimi = nimi;
+        if (maara < 0) {
+            maara = 0;
+        }
         this.maara = maara;
         this.yksikko = 0;
     }

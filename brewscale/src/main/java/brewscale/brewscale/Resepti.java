@@ -66,6 +66,10 @@ public class Resepti {
     public double getKoko() {
         return koko;
     }
+    
+    public String muistiinpanot() {
+        return muistiinpanot;
+    }
 
     public String reseptiTeksti() {
         String reseptiTeksti = toString() + "\n"
