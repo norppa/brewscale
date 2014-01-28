@@ -27,6 +27,14 @@ public class Aines {
     public Aines(String nimi, double maara) {
         this(nimi, maara, 0);
     }
+    
+    public void setMaara(double uusiMaara) {
+        this.maara = uusiMaara;
+    }
+    
+    public void setYksikko(int yksikko) {
+        this.yksikko = yksikko;
+    }
 
     public String getNimi() {
         return nimi;

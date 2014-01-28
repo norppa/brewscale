@@ -35,17 +35,17 @@ public class BrewscaleTest extends TestCase {
 
     public void testSkaalainToimiiYkkostaSuuremmilla() {
 
-        Resepti uusi = brewscale.skaalaa(2);
-        assertEquals(20.00, uusi.getKoko());
+        brewscale.skaalaa(2);
+        assertEquals(20.00, brewscale.getResepti().getKoko());
     }
     
     public void testSkaalainToimiiYkkostaPienemmilla() {
-        Resepti uusi = brewscale.skaalaa(0.5);
-        assertEquals(5.00, uusi.getKoko());
+        brewscale.skaalaa(0.5);
+        assertEquals(5.00, brewscale.getResepti().getKoko());
     }
     
     public void testSkaalainToimiiNollaaPienemmilla() {
-        Resepti uusi = brewscale.skaalaa(-1);
-        assertEquals(10.00, uusi.getKoko());
+        brewscale.skaalaa(-2);
+        assertEquals(10.00, brewscale.getResepti().getKoko());
     }
 }

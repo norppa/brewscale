@@ -19,8 +19,24 @@ public class Humala extends Aines {
         this.alphaAcid = alphaAcid;
     }
     
+    public Humala(String nimi, double maara, double alphaAcid) {
+        this(nimi, maara, 0, alphaAcid);
+    }
+    
     public double getAlphaAcid() {
         return alphaAcid;
+    }
+    
+    public double laskeAAU() {
+        double unssiMaara = this.getMaara();
+        if (this.getYksikko() == 0){
+            unssiMaara = unssiMaara / 28.3495231;
+        }
+        if (this.getYksikko() == 2) {
+            unssiMaara = unssiMaara * 16;
+        }
+        double aau = this.alphaAcid * unssiMaara;
+        return aau;
     }
     
     

@@ -86,16 +86,16 @@ public class ReseptiTest extends TestCase {
         assertEquals("Muistiinpano 1\nMuistiinpano 2\n", resepti.muistiinpanot());
     }
 
-    public void testReseptiTekstiToimii() {
-        Mallas m = new Mallas("Mallas", 5.0);
-        resepti.lisaaMallas(m);
-        Humala h = new Humala("Humala", 5.0, 5.0);
-        resepti.lisaaHumala(h);
-        Aines a = new Aines("Aines", 5.0);
-        resepti.lisaaAines(a);
-        assertEquals("Testiresepti (10.0 l)\nMaltaat:\n5.0 Mallas\nHumalat:\n5.0 Humala\n"
-                + "Muut ainekset:\n5.0 Aines\n", resepti.reseptiTeksti());
-    }
+//    public void testReseptiTekstiToimii() {
+//        Mallas m = new Mallas("Mallas", 5.0);
+//        resepti.lisaaMallas(m);
+//        Humala h = new Humala("Humala", 5.0, 5.0);
+//        resepti.lisaaHumala(h);
+//        Aines a = new Aines("Aines", 5.0);
+//        resepti.lisaaAines(a);
+//        assertEquals("Testiresepti (10.0 l)\nMaltaat:\n5.0 Mallas\nHumalat:\n5.0 Humala\n"
+//                + "Muut ainekset:\n5.0 Aines\n", resepti.reseptiTeksti());
+//    }
 
     public void testToStringToimii() {
         assertEquals("Testiresepti (10.0 l)", resepti.toString());

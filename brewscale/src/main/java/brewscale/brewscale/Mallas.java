@@ -16,4 +16,8 @@ public class Mallas extends Aines {
         super(nimi, maara, yksikko);
     }
     
+    public Mallas(String nimi, double maara) {
+        this(nimi, maara, 0);
+    }
+    
 }

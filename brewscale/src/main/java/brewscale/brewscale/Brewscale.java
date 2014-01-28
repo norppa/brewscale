@@ -5,6 +5,7 @@
  */
 package brewscale.brewscale;
 
+import brewscale.filehandling.BrewWriter;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
@@ -27,52 +28,40 @@ public class Brewscale {
         this.resepti = resepti;
     }
 
-    public Resepti skaalaa(double kerroin) {
-
-        if (kerroin < 0) {
-            return resepti;
-        }
-
-        Resepti uusiResepti = new Resepti(resepti.getNimi(), resepti.getKoko() * kerroin);
-
-        ArrayList<Mallas> maltaat = resepti.getMaltaat();
-        for (Mallas aines : maltaat) {
-            uusiResepti.lisaaMallas(new Mallas(aines.getNimi(), aines.getMaara() * kerroin, aines.getYksikko()));
-        }
-
-        ArrayList<Humala> humalat = resepti.getHumalat();
-        for (Humala aines : humalat) {
-            uusiResepti.lisaaHumala(new Humala(aines.getNimi(), aines.getMaara() * kerroin, aines.getYksikko(), aines.getAlphaAcid()));
-        }
-
-        ArrayList<Aines> aineslista = resepti.getMuutAinekset();
-        for (Aines aines : aineslista) {
-            uusiResepti.lisaaAines(new Mallas(aines.getNimi(), aines.getMaara() * kerroin, aines.getYksikko()));
-        }
-
-        return uusiResepti;
+    public Brewscale() {
+        this(null);
     }
 
-    public Resepti muutaGrammoiksi() {
+    public void uusiResepti(Resepti uusi) {
+        this.resepti = uusi;
+    }
 
-        Resepti uusiResepti = new Resepti(resepti.getNimi(), resepti.getKoko() * yksikkomuuntokerroin(resepti.getKokoYksikko(), 0));
+    public Resepti getResepti() {
+        return resepti;
+    }
 
-        ArrayList<Mallas> maltaat = resepti.getMaltaat();
-        for (Mallas aines : maltaat) {
-            uusiResepti.lisaaMallas(new Mallas(aines.getNimi(), aines.getMaara() * yksikkomuuntokerroin(aines.getYksikko(), 0), 0));
+    public void tallenna() {
+        BrewWriter bw = new BrewWriter();
+        bw.tallennaResepti(resepti.toString(), reseptiTeksti());
+    }
+
+    public void skaalaa(double kerroin) {
+        if (kerroin < 0) {
+            return;
         }
 
-        ArrayList<Humala> humalat = resepti.getHumalat();
-        for (Humala aines : humalat) {
-            uusiResepti.lisaaHumala(new Humala(aines.getNimi(), aines.getMaara() * yksikkomuuntokerroin(aines.getYksikko(), 0), 0, aines.getAlphaAcid()));
+        resepti.setKoko(resepti.getKoko() * kerroin);
+        for (Aines a : resepti.getAinekset()) {
+            a.setMaara(a.getMaara() * kerroin);
         }
+    }
 
-        ArrayList<Aines> aineslista = resepti.getMuutAinekset();
-        for (Aines aines : aineslista) {
-            uusiResepti.lisaaAines(new Mallas(aines.getNimi(), aines.getMaara() * yksikkomuuntokerroin(aines.getYksikko(), 0), 0));
+    public void muutaGrammoiksi() {
+
+        for (Aines a : resepti.getAinekset()) {
+            a.setMaara(a.getMaara() * yksikkomuuntokerroin(a.getYksikko(), 0));
+            a.setYksikko(0);
         }
-
-        return uusiResepti;
     }
 
     private double yksikkomuuntokerroin(int alku, int loppu) {
@@ -117,14 +106,23 @@ public class Brewscale {
         }
     }
 
-    public void tallennaUusiResepti(Resepti r) {
-        try {
-            String tiedostonimi = "./reseptit/" + r + ".txt";
-            File uusiResepti = new File(tiedostonimi);
-            uusiResepti.createNewFile();
-        } catch (IOException e) {
-            System.out.println("I/O error tapahtui");
+    public String reseptiTeksti() {
+        String reseptiTeksti = resepti.toString() + "\n"
+                + "\nMaltaat:\n";
+        for (Mallas m : resepti.getMaltaat()) {
+            reseptiTeksti += m.getMaara() + " " + m.getNimi() + "\n";
         }
+        reseptiTeksti += "\nHumalat:\n";
+        for (Humala h : resepti.getHumalat()) {
+            reseptiTeksti += h.getMaara() + " " + h.getNimi() + "\n";
+        }
+        reseptiTeksti += "\nMuut ainekset:\n";
+        for (Aines a : resepti.getMuutAinekset()) {
+            reseptiTeksti += a.getMaara() + " " + a.getNimi() + "\n";
+        }
+        reseptiTeksti += "\nMuistiinpanoja:\n" + resepti.muistiinpanot();
+
+        return reseptiTeksti;
     }
 
 }
