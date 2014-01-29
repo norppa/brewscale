@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package brewscale.brewscale;
+package brewscale.resepti;
 
 import java.util.ArrayList;
 
@@ -23,6 +23,9 @@ public class Resepti {
 
     public Resepti(String nimi, double koko, String kokoYksikko) {
         this.nimi = nimi;
+        if (koko < 0) {
+            koko = 0;
+        }
         this.koko = koko;
         this.kokoYksikko = kokoYksikko;
         this.muistiinpanot = "";
@@ -35,65 +38,45 @@ public class Resepti {
     public Resepti(String nimi, double koko) {
         this(nimi, koko, "l");
     }
-    
-    public Resepti(Resepti kloonattava) {
-        this(kloonattava.getNimi(), kloonattava.getKoko(), kloonattava.getKokoYksikko());
-        this.muistiinpanot = kloonattava.muistiinpanot();
-        this.ainekset = new ArrayList<Aines>();
-        this.maltaat = new ArrayList<Mallas>();
-        ArrayList<Mallas> klooniMaltaat = kloonattava.getMaltaat();
-        for (Mallas m: klooniMaltaat) {
-            Mallas uusiMallas = new Mallas(m.getNimi(), m.getMaara(), m.getYksikko());
-            maltaat.add(uusiMallas);
-            ainekset.add(uusiMallas);
-        }
-        this.humalat = new ArrayList<Humala>();
-        ArrayList<Humala> klooniHumalat = kloonattava.getHumalat();
-        for(Humala h: klooniHumalat) {
-            Humala uusiHumala = new Humala(h.getNimi(), h.getMaara(), h.getYksikko(), h.getAlphaAcid());
-            humalat.add(uusiHumala);
-            ainekset.add(uusiHumala);
-        }
-        this.muutAinekset = new ArrayList<Aines>();
-        ArrayList<Aines> klooniAinekset = kloonattava.getMuutAinekset();
-        for (Aines a: klooniAinekset) {
-            Aines uusiAines = new Aines(a.getNimi(), a.getMaara(), a.getYksikko());
-            muutAinekset.add(uusiAines);
-            ainekset.add(uusiAines);
-        }
-    }
-    
+
     public void setNimi(String nimi) {
         this.nimi = nimi;
     }
-    
+
     public void setKoko(double koko) {
         this.koko = koko;
     }
-    
+
     public void setKokoYksikko(String kokoYksikko) {
+        if (!kokoYksikko.equals("l") && !kokoYksikko.equals("gal")) {
+            return;
+        }
         this.kokoYksikko = kokoYksikko;
     }
 
     public void lisaaMallas(Mallas lisattava) {
         maltaat.add(lisattava);
+        ainekset.add(lisattava);
     }
 
     public void lisaaHumala(Humala lisattava) {
         humalat.add(lisattava);
+        ainekset.add(lisattava);
     }
-    
+
     public void korvaaHumala(int numero, String nimi, double alphaAcid) {
         double aau = humalat.get(numero).laskeAAU();
         double maaraUnsseina = aau / alphaAcid;
         double maara = maaraUnsseina * 28.3495231;
-        Humala uusiHumala = new Humala(nimi, maara, 0, alphaAcid);
+        maara = Math.round(maara * 100) / 100;
+        Humala uusiHumala = new Humala(nimi, maara, "g", alphaAcid);
         humalat.remove(numero);
         humalat.add(numero, uusiHumala);
     }
-    
+
     public void lisaaAines(Aines lisattava) {
         muutAinekset.add(lisattava);
+        ainekset.add(lisattava);
     }
 
     public void lisaaMuistiinpano(String mp) {
@@ -111,7 +94,7 @@ public class Resepti {
     public ArrayList<Aines> getMuutAinekset() {
         return muutAinekset;
     }
-    
+
     public ArrayList<Aines> getAinekset() {
         return ainekset;
     }

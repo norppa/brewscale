@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package brewscale.brewscale;
+package brewscale.resepti;
 
 /**
  *
@@ -12,12 +12,12 @@ package brewscale.brewscale;
  */
 public class Mallas extends Aines {
     
-    public Mallas(String nimi, double maara, int yksikko) {
+    public Mallas(String nimi, double maara, String yksikko) {
         super(nimi, maara, yksikko);
     }
     
     public Mallas(String nimi, double maara) {
-        this(nimi, maara, 0);
+        this(nimi, maara, "g");
     }
     
 }

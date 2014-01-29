@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package brewscale.brewscale;
+package brewscale.resepti;
 
 /**
  *
@@ -14,13 +14,13 @@ public class Humala extends Aines {
     
     private double alphaAcid;
     
-    public Humala(String nimi, double maara, int yksikko, double alphaAcid) {
+    public Humala(String nimi, double maara, String yksikko, double alphaAcid) {
         super(nimi, maara, yksikko);
         this.alphaAcid = alphaAcid;
     }
     
     public Humala(String nimi, double maara, double alphaAcid) {
-        this(nimi, maara, 0, alphaAcid);
+        this(nimi, maara, "g", alphaAcid);
     }
     
     public double getAlphaAcid() {
@@ -29,10 +29,10 @@ public class Humala extends Aines {
     
     public double laskeAAU() {
         double unssiMaara = this.getMaara();
-        if (this.getYksikko() == 0){
+        if (this.getYksikko().equals("g")){
             unssiMaara = unssiMaara / 28.3495231;
         }
-        if (this.getYksikko() == 2) {
+        if (this.getYksikko().equals("lbs.")) {
             unssiMaara = unssiMaara * 16;
         }
         double aau = this.alphaAcid * unssiMaara;

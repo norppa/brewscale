@@ -5,6 +5,7 @@
  */
 package brewscale.brewscale;
 
+import brewscale.resepti.*;
 import brewscale.filehandling.BrewWriter;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -44,6 +45,11 @@ public class Brewscale {
         BrewWriter bw = new BrewWriter();
         bw.tallennaResepti(resepti.toString(), reseptiTeksti());
     }
+    
+    public void lataa(String tiedostonimi) {
+        BrewWriter bw = new BrewWriter();
+        resepti = bw.lueResepti(tiedostonimi);
+    }
 
     public void skaalaa(double kerroin) {
         if (kerroin < 0) {
@@ -57,36 +63,35 @@ public class Brewscale {
     }
 
     public void muutaGrammoiksi() {
-
         for (Aines a : resepti.getAinekset()) {
-            a.setMaara(a.getMaara() * yksikkomuuntokerroin(a.getYksikko(), 0));
-            a.setYksikko(0);
+            a.setMaara(a.getMaara() * yksikkoMuuntoKerroin(a.getYksikko(), "g"));
+            a.setYksikko("g");
         }
     }
+    
+    private double yksikkoMuuntoKerroin(String alku, String loppu) {
+        double unssi = 28.35;
+        double pauna = 453.60;
 
-    private double yksikkomuuntokerroin(int alku, int loppu) {
-        double unssi = 28.3495231;
-        double pauna = 453.59237;
-
-        if (alku == loppu) {
+        if (alku.equals(loppu)) {
             return 1;
         }
-        if (loppu == 0 && alku == 1) {
+        if (loppu.equals("g") && alku.equals("oz")) {
             return unssi;
         }
-        if (loppu == 0 && alku == 2) {
+        if (loppu.equals("g") && alku.equals("lbs")) {
             return pauna;
         }
-        if (loppu == 1 && alku == 0) {
+        if (loppu.equals("oz") && alku.equals("g")) {
             return 1 / unssi;
         }
-        if (loppu == 1 && alku == 2) {
+        if (loppu.equals("oz") && alku.equals("lbs")) {
             return 16;
         }
-        if (loppu == 2 && alku == 0) {
+        if (loppu.equals("lbs") && alku.equals("g")) {
             return 1 / pauna;
         }
-        if (loppu == 2 && alku == 1) {
+        if (loppu.equals("lbs") && alku.equals("oz")) {
             return 1 / 16;
         }
         return 0;
@@ -107,18 +112,21 @@ public class Brewscale {
     }
 
     public String reseptiTeksti() {
-        String reseptiTeksti = resepti.toString() + "\n"
+        String reseptiTeksti = ""
+                + "Nimi: " + resepti.getNimi() + "\n"
+                + "Koko: " + resepti.getKoko() + "\n"
+                + "Yksikkö: " + resepti.getKokoYksikko() + "\n"
                 + "\nMaltaat:\n";
         for (Mallas m : resepti.getMaltaat()) {
-            reseptiTeksti += m.getMaara() + " " + m.getNimi() + "\n";
+            reseptiTeksti += m.getMaara() + " " + m.getYksikko() + " " + m.getNimi() + "\n";
         }
         reseptiTeksti += "\nHumalat:\n";
         for (Humala h : resepti.getHumalat()) {
-            reseptiTeksti += h.getMaara() + " " + h.getNimi() + "\n";
+            reseptiTeksti += h.getMaara() + " " + h.getYksikko() + " " + h.getNimi() + "\n";
         }
         reseptiTeksti += "\nMuut ainekset:\n";
         for (Aines a : resepti.getMuutAinekset()) {
-            reseptiTeksti += a.getMaara() + " " + a.getNimi() + "\n";
+            reseptiTeksti += a.getMaara() + " " + a.getYksikko() + " " + a.getNimi() + "\n";
         }
         reseptiTeksti += "\nMuistiinpanoja:\n" + resepti.muistiinpanot();
 
