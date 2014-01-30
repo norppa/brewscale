@@ -33,7 +33,7 @@ public class Brewscale {
         this(null);
     }
 
-    public void uusiResepti(Resepti uusi) {
+    public void setResepti(Resepti uusi) {
         this.resepti = uusi;
     }
 

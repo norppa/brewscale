@@ -1,3 +1,10 @@
 Ensimmäinen deadline:
-14.1.: 2h GitHubiin tutustuminen, tunnusten ja SSH-avainten luonti
-15.1.: 2,5h Netbeansin (uudelleen) asennus, JDK:n kanssa säätäminen, projektin luominen. Palautus.
+14.1. 2h GitHubiin tutustuminen, tunnusten ja SSH-avainten luonti
+15.1. 2,5h Netbeansin (uudelleen) asennus, JDK:n kanssa säätäminen, projektin luominen. Palautus.
+17.1. 3h Palikoitten rakenteen hahmottelua kooditasolla
+19.1. 3,5h Koodin refaktorointia.
+20.1. 2h Aivan turhaa säätöä kloonauksen kanssa.
+22.1. 2h Testien kirjoittamista.
+25.1. 4h Graafisen käyttöliittymän rakentelun testausta.
+27.1. 4h Tiedoston kirjoittamiseen tutustumista ja metodien koodausta.
+29.1. 3h Testien kirjoittamista, refaktorointia, viilausta.

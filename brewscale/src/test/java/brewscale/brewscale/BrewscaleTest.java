@@ -46,7 +46,7 @@ public class BrewscaleTest extends TestCase {
     }
 
     public void testSkaalainToimiiNollaaPienemmilla() {
-        brewscale.skaalaa(-2);
+        brewscale.skaalaa(-0.1);
         assertEquals(10.00, brewscale.getResepti().getKoko());
     }
 
