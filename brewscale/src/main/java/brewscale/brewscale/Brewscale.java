@@ -6,15 +6,8 @@
 package brewscale.brewscale;
 
 import brewscale.resepti.*;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
 
 /**
  *
@@ -41,12 +34,12 @@ public class Brewscale {
     }
 
     public void tallenna() {
-        BrewWriter bw = new BrewWriter();
+        FileHandler bw = new FileHandler();
         bw.tallennaResepti(resepti.toString(), reseptiTeksti());
     }
     
     public void lataa(String tiedostonimi) {
-        BrewWriter bw = new BrewWriter();
+      FileHandler bw = new FileHandler();
         resepti = bw.lueResepti(tiedostonimi);
     }
 
@@ -111,17 +104,18 @@ public class Brewscale {
     }
 
     public String reseptiTeksti() {
-        String reseptiTeksti = ""
-                + "Nimi: " + resepti.getNimi() + "\n"
-                + "Koko: " + resepti.getKoko() + "\n"
-                + "Yksikkö: " + resepti.getKokoYksikko() + "\n"
-                + "\nMaltaat:\n";
+//        String reseptiTeksti = ""
+//                + "Nimi: " + resepti.getNimi() + "\n"
+//                + "Koko: " + resepti.getKoko() + "\n"
+//                + "Yksikkö: " + resepti.getKokoYksikko() + "\n"
+//                + "\nMaltaat:\n";
+        String reseptiTeksti = resepti.getNimi() + " (" + resepti.getKoko() + " " + resepti.getKokoYksikko() + ")\n\nMaltaat:\n";
         for (Mallas m : resepti.getMaltaat()) {
             reseptiTeksti += m.getMaara() + " " + m.getYksikko() + " " + m.getNimi() + "\n";
         }
         reseptiTeksti += "\nHumalat:\n";
         for (Humala h : resepti.getHumalat()) {
-            reseptiTeksti += h.getMaara() + " " + h.getYksikko() + " " + h.getNimi() + "\n";
+            reseptiTeksti += h.getMaara() + " " + h.getYksikko() + " " + h.getNimi() + " (" + h.getAlphaAcid() + "%AA)\n";
         }
         reseptiTeksti += "\nMuut ainekset:\n";
         for (Aines a : resepti.getMuutAinekset()) {

@@ -12,7 +12,7 @@ import brewscale.resepti.Resepti;
 public class App 
 {
     public static void main( String[] args ) {
-        Resepti resepti = new Resepti("Tester Ale 2", 10);
+        Resepti resepti = new Resepti("Tester Ale", 10);
         Mallas m1 = new Mallas("Pale Ale", 1.0, "lbs");
         Mallas m2 = new Mallas("Crystal 100", 2.0, "lbs");
         resepti.lisaaMallas(m1);
@@ -27,10 +27,14 @@ public class App
         Aines a1 = new Aines("Sokeri", 500);
         resepti.lisaaAines(a1);
         
-        Brewscale b = new Brewscale(resepti);
-        System.out.println(b.getResepti().getAinekset().get(0).getYksikko());
-        b.muutaGrammoiksi();
-        System.out.println(b.getResepti().getAinekset().get(0).getYksikko());
+        Brewscale b = new Brewscale();
+        
+//        b.setResepti(resepti);
+//        b.tallenna();
+        
+        FileHandler fh = new FileHandler();
+        b.setResepti(fh.lueResepti("Tester Ale (10.0 l)"));
+        System.out.println(b.reseptiTeksti());
 //        
 //        Resepti uusi = new Resepti(resepti);
 //        Brewscale brsc = new Brewscale();
