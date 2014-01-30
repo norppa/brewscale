@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package brewscale.brewscale;
+package brewscale.resepti;
 
 import brewscale.resepti.Mallas;
 import brewscale.resepti.Humala;

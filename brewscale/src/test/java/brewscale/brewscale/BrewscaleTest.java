@@ -49,6 +49,22 @@ public class BrewscaleTest extends TestCase {
         brewscale.skaalaa(-0.1);
         assertEquals(10.00, brewscale.getResepti().getKoko());
     }
+    
+    public void testSkaalainToimiiAineksille() {
+        lisaaAineita("g");
+        brewscale.skaalaa(1.5);
+        for (Aines a : brewscale.getResepti().getAinekset()) {
+            assertEquals(15, a.getMaara(), 0.001);
+        }
+    }
+    
+    public void testSkaalainToimiiAineksilleNollalla() {
+        lisaaAineita("g");
+        brewscale.skaalaa(0);
+        for (Aines a: brewscale.getResepti().getAinekset()) {
+            assertEquals(0, a.getMaara(), 0.001);
+        }
+    }
 
     private void lisaaAineita(String yksikko) {
         resepti.lisaaMallas(new Mallas("Mallas 1", 10, yksikko));

@@ -6,7 +6,6 @@
 package brewscale.brewscale;
 
 import brewscale.resepti.*;
-import brewscale.filehandling.BrewWriter;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;

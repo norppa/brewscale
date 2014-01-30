@@ -32,7 +32,7 @@ public class Humala extends Aines {
         if (this.getYksikko().equals("g")){
             unssiMaara = unssiMaara / 28.3495231;
         }
-        if (this.getYksikko().equals("lbs.")) {
+        if (this.getYksikko().equals("lbs")) {
             unssiMaara = unssiMaara * 16;
         }
         double aau = this.alphaAcid * unssiMaara;
