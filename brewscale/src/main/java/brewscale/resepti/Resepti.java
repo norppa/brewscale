@@ -58,6 +58,11 @@ public class Resepti {
         maltaat.add(lisattava);
         ainekset.add(lisattava);
     }
+    
+    public void lisaaMallas(String nimi, String maara, String yksikko) {
+        Mallas lisattava = new Mallas(nimi, Double.parseDouble(maara), yksikko);
+        lisaaMallas(lisattava);
+    }
 
     public void lisaaHumala(Humala lisattava) {
         humalat.add(lisattava);

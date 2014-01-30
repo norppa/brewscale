@@ -74,7 +74,7 @@ public class FileHandler {
             rivi = reader.readLine();
             while (!rivi.equals("")) {
                 String[] osat = erotteleRivi(rivi);
-                resepti.lisaaMallas(new Mallas(osat[2], Double.parseDouble(osat[0]), osat[1]));
+                resepti.lisaaMallas(osat[2], osat[0], osat[1]);
                 rivi = reader.readLine();
             }
 
