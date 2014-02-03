@@ -55,8 +55,8 @@ public class BrewscaleGUI implements Runnable {
         nappulat.add(avaaReseptiBtn);
         nappulat.add(uusiReseptiBtn);
 
-        JScrollPane maltaat = e.maltaatPanel();
-        JScrollPane humalat = e.humalatPanel();
+        JScrollPane maltaat = e.ainesPanel(0);
+        JScrollPane humalat = e.ainesPanel(1);
         
         JPanel koko = e.reseptinKokoPanel();
 

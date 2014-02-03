@@ -27,18 +27,10 @@ import javax.swing.border.TitledBorder;
 public class Elements {
 
     private String[] tilavuusLista, painoLista;
-    private JButton laske, tyhjenna;
-    private JTextArea tulosArea;
-    private JTextField alkuTilavuus, loppuTilavuus;
-    private JComboBox alkuTilavuusYksikko, loppuTilavuusYksikko;
-    private ArrayList<JTextField> humalaNimiLista, mallasMaaraLista, humalaMaaraLista;
-    private ArrayList<JComboBox> mallasYksikkoLista, humalaYksikkoLista;
-//    private FocusListener vikanRivinKuuntelija;
-    private JPanel raakaAineetPanel, maltaatPanel, humalatPanel;
-    private double alkuTilavuusDbl, loppuTilavuusDbl;
     private ArrayList<JTextField>[] nimiListat, maaraListat;
     private ArrayList<JComboBox>[] yksikkoListat;
     private FocusListener[] vikanRivinKuuntelijat;
+    private final JPanel maltaatPanel, humalatPanel, muutAineetPanel;
 
     public Elements() {
         tilavuusLista = new String[]{"l", "gal"};
@@ -47,6 +39,9 @@ public class Elements {
         maaraListat = new ArrayList[3];
         yksikkoListat = new ArrayList[3];
         vikanRivinKuuntelijat = new FocusListener[3];
+        maltaatPanel = new JPanel();
+        humalatPanel = new JPanel();
+        muutAineetPanel = new JPanel();
     }
 
     public JPanel reseptinKokoPanel() {
@@ -59,76 +54,153 @@ public class Elements {
         return reseptinKokoPanel;
     }
 
-    public JScrollPane maltaatPanel() {
+    public JScrollPane ainesPanel(int k) {  // 0 = maltaat, 1 = humalat, 2 = muut
 
-        nimiListat[0] = new ArrayList<JTextField>();
-        maaraListat[0] = new ArrayList<JTextField>();
-        yksikkoListat[0] = new ArrayList<JComboBox>();
+        nimiListat[k] = new ArrayList<JTextField>();
+        maaraListat[k] = new ArrayList<JTextField>();
+        yksikkoListat[k] = new ArrayList<JComboBox>();
 
-        maltaatPanel = new JPanel();
-        maltaatPanel.setLayout(new BoxLayout(maltaatPanel, BoxLayout.Y_AXIS));
+        JPanel panel = new JPanel();
+
+        if (k == 0) {
+            panel = maltaatPanel;
+        }
+        if (k == 1) {
+            panel = humalatPanel;
+        }
+        if (k == 2) {
+            panel = muutAineetPanel;
+        }
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         for (int i = 0; i < 3; i++) {
-            maltaatPanel.add(luoUusiRivi("maltaat"));
+            panel.add(luoUusiRivi(k));
         }
 
-        vikanRivinKuuntelijat[0] = new FocusListener() {
-            public void focusGained(FocusEvent evt) {
-                maltaatPanel.add(luoUusiRivi("maltaat"));
-                paivitaKuuntelijat("maltaat");
-                maltaatPanel.revalidate();
-            }
+        vikanRivinKuuntelijat[k] = vikanRivinKuuntelija(k);
 
-            public void focusLost(FocusEvent evt) {
-            }
-        };
+        nimiListat[k].get(0).addFocusListener(vikanRivinKuuntelijat[k]);
+        maaraListat[k].get(0).addFocusListener(vikanRivinKuuntelijat[k]);
+        yksikkoListat[k].get(0).addFocusListener(vikanRivinKuuntelijat[k]);
 
-        nimiListat[0].get(0).addFocusListener(vikanRivinKuuntelijat[0]);
-        maaraListat[0].get(0).addFocusListener(vikanRivinKuuntelijat[0]);
-        yksikkoListat[0].get(0).addFocusListener(vikanRivinKuuntelijat[0]);
-
-        JScrollPane pane = new JScrollPane(maltaatPanel);
+        JScrollPane pane = new JScrollPane(panel);
         pane.setPreferredSize(new Dimension(400, 200));
-
         return pane;
     }
 
-    public JScrollPane humalatPanel() {
+    private FocusListener vikanRivinKuuntelija(int k) {
+        if (k == 0) {
+            return new FocusListener() {
+                public void focusGained(FocusEvent evt) {
+                    maltaatPanel.add(luoUusiRivi(0));
+                    paivitaKuuntelijat(0);
+                    maltaatPanel.revalidate();
+                }
 
-        nimiListat[1] = new ArrayList<JTextField>();
-        maaraListat[1] = new ArrayList<JTextField>();
-        yksikkoListat[1] = new ArrayList<JComboBox>();
-
-        humalatPanel = new JPanel();
-        humalatPanel.setLayout(new BoxLayout(humalatPanel, BoxLayout.Y_AXIS));
-
-        for (int i = 0; i < 3; i++) {
-            humalatPanel.add(luoUusiRivi("humalat"));
+                public void focusLost(FocusEvent evt) {
+                }
+            };
         }
 
-        vikanRivinKuuntelijat[1] = new FocusListener() {
-            public void focusGained(FocusEvent evt) {
-                humalatPanel.add(luoUusiRivi("humalat"));
-                paivitaKuuntelijat("humalat");
-                humalatPanel.revalidate();
-            }
+        if (k == 1) {
+            return new FocusListener() {
+                public void focusGained(FocusEvent evt) {
+                    humalatPanel.add(luoUusiRivi(1));
+                    paivitaKuuntelijat(1);
+                    humalatPanel.revalidate();
+                }
 
-            public void focusLost(FocusEvent evt) {
-            }
-        };
+                public void focusLost(FocusEvent evt) {
+                }
+            };
+        }
 
-        nimiListat[1].get(0).addFocusListener(vikanRivinKuuntelijat[1]);
-        maaraListat[1].get(0).addFocusListener(vikanRivinKuuntelijat[1]);
-        yksikkoListat[1].get(0).addFocusListener(vikanRivinKuuntelijat[1]);
+        if (k == 2) {
+            return new FocusListener() {
+                public void focusGained(FocusEvent evt) {
+                    muutAineetPanel.add(luoUusiRivi(2));
+                    paivitaKuuntelijat(2);
+                    muutAineetPanel.revalidate();
+                }
 
-        JScrollPane pane = new JScrollPane(humalatPanel);
-        pane.setPreferredSize(new Dimension(400, 200));
-
-        return pane;
+                public void focusLost(FocusEvent evt) {
+                }
+            };
+        }
+        return null;
     }
 
-    private JPanel luoUusiRivi(String kategoria) {
-        int i = kategoriaNumero(kategoria);
+//    public JScrollPane maltaatPanel() {
+//
+//        nimiListat[0] = new ArrayList<JTextField>();
+//        maaraListat[0] = new ArrayList<JTextField>();
+//        yksikkoListat[0] = new ArrayList<JComboBox>();
+//
+//        maltaatPanel = new JPanel();
+//        maltaatPanel.setLayout(new BoxLayout(maltaatPanel, BoxLayout.Y_AXIS));
+//
+//        for (int i = 0; i < 3; i++) {
+//            maltaatPanel.add(luoUusiRivi("maltaat"));
+//        }
+//
+//        vikanRivinKuuntelijat[0] = new FocusListener() {
+//            public void focusGained(FocusEvent evt) {
+//                maltaatPanel.add(luoUusiRivi("maltaat"));
+//                paivitaKuuntelijat("maltaat");
+//                maltaatPanel.revalidate();
+//            }
+//
+//            public void focusLost(FocusEvent evt) {
+//            }
+//        };
+//
+//        nimiListat[0].get(0).addFocusListener(vikanRivinKuuntelijat[0]);
+//        maaraListat[0].get(0).addFocusListener(vikanRivinKuuntelijat[0]);
+//        yksikkoListat[0].get(0).addFocusListener(vikanRivinKuuntelijat[0]);
+//
+//        JScrollPane pane = new JScrollPane(maltaatPanel);
+//        pane.setPreferredSize(new Dimension(400, 200));
+//
+//        return pane;
+//    }
+//
+//    public JScrollPane humalatPanel() {
+//
+//        nimiListat[1] = new ArrayList<JTextField>();
+//        maaraListat[1] = new ArrayList<JTextField>();
+//        yksikkoListat[1] = new ArrayList<JComboBox>();
+//
+//        humalatPanel = new JPanel();
+//        humalatPanel.setLayout(new BoxLayout(humalatPanel, BoxLayout.Y_AXIS));
+//
+//        for (int i = 0; i < 3; i++) {
+//            humalatPanel.add(luoUusiRivi("humalat"));
+//        }
+//
+//        vikanRivinKuuntelijat[1] = new FocusListener() {
+//            public void focusGained(FocusEvent evt) {
+//                humalatPanel.add(luoUusiRivi("humalat"));
+//                paivitaKuuntelijat("humalat");
+//                humalatPanel.revalidate();
+//            }
+//
+//            public void focusLost(FocusEvent evt) {
+//            }
+//        };
+//
+//        nimiListat[1].get(0).addFocusListener(vikanRivinKuuntelijat[1]);
+//        maaraListat[1].get(0).addFocusListener(vikanRivinKuuntelijat[1]);
+//        yksikkoListat[1].get(0).addFocusListener(vikanRivinKuuntelijat[1]);
+//
+//        JScrollPane pane = new JScrollPane(humalatPanel);
+//        pane.setPreferredSize(new Dimension(400, 200));
+//
+//        return pane;
+//    }
+    private JPanel luoUusiRivi(int i) {
+        if (i < 0 || i > 2) {
+            return null;
+        }
 
         JPanel uusiPaneeli = new JPanel();
         nimiListat[i].add(0, new JTextField(20));
@@ -143,26 +215,16 @@ public class Elements {
         return uusiPaneeli;
     }
 
-    private void paivitaKuuntelijat(String kategoria) {
-        int i = kategoriaNumero(kategoria);
+    private void paivitaKuuntelijat(int i) {
+        if (i < 0 || i > 2) {
+            return;
+        }
         nimiListat[i].get(1).removeFocusListener(vikanRivinKuuntelijat[i]);
         maaraListat[i].get(1).removeFocusListener(vikanRivinKuuntelijat[i]);
         yksikkoListat[i].get(1).removeFocusListener(vikanRivinKuuntelijat[i]);
         nimiListat[i].get(0).addFocusListener(vikanRivinKuuntelijat[i]);
         maaraListat[i].get(0).addFocusListener(vikanRivinKuuntelijat[i]);
         yksikkoListat[i].get(0).addFocusListener(vikanRivinKuuntelijat[i]);
-    }
-
-    private int kategoriaNumero(String kategoria) {
-        int i = -1;
-        if (kategoria.equals("maltaat")) {
-            i = 0;
-        } else if (kategoria.equals("humalat")) {
-            i = 1;
-        } else if (kategoria.equals("muut")) {
-            i = 2;
-        }
-        return i;
     }
 
 }
