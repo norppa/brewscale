@@ -1,5 +1,6 @@
 package brewscale.brewscale;
 
+import brewscale.gui.BrewscaleGUI;
 import brewscale.resepti.Mallas;
 import brewscale.resepti.Aines;
 import brewscale.resepti.Humala;
@@ -29,19 +30,10 @@ public class App
         
         Brewscale b = new Brewscale();
         
-//        b.setResepti(resepti);
-//        b.tallenna();
+        BrewscaleGUI gui = new BrewscaleGUI(b);
+        gui.run();
         
-        FileHandler fh = new FileHandler();
-        b.setResepti(fh.lueResepti("Tester Ale (10.0 l)"));
-        System.out.println(b.reseptiTeksti());
-//        
-//        Resepti uusi = new Resepti(resepti);
-//        Brewscale brsc = new Brewscale();
-//        brsc.uusiResepti(uusi);
-//        brsc.skaalaa(2);
-//        System.out.println(brsc.getResepti().reseptiTeksti());
-//        brsc.muutaGrammoiksi();
-//        System.out.println(brsc.getResepti().reseptiTeksti());
+//        b.setResepti(resepti);
+
     }
 }
