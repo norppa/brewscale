@@ -47,11 +47,22 @@ public class Elements {
     public JPanel reseptinKokoPanel() {
         JPanel reseptinKokoPanel = new JPanel();
         reseptinKokoPanel.add(new JLabel("Satsin koko:"));
-        reseptinKokoPanel.add(new JTextField("20"));
+        reseptinKokoPanel.add(new JTextField("", 5) );
         reseptinKokoPanel.add(new JComboBox(tilavuusLista));
 
         reseptinKokoPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         return reseptinKokoPanel;
+    }
+    
+    public JPanel konversioPanel() {
+        JPanel panel = new JPanel();
+        panel.add(new JLabel("Skaalaa resepti kokoon"));
+        panel.add(new JTextField(" ", 5));
+        panel.add(new JComboBox(tilavuusLista));
+        panel.add(new JButton("Skaalaa"));
+               
+        panel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        return panel;
     }
 
     public JScrollPane ainesPanel(int k) {  // 0 = maltaat, 1 = humalat, 2 = muut
@@ -61,18 +72,24 @@ public class Elements {
         yksikkoListat[k] = new ArrayList<JComboBox>();
 
         JPanel panel = new JPanel();
-
+        String otsikko = "";
+        
         if (k == 0) {
             panel = maltaatPanel;
+            otsikko = "Maltaat";
         }
         if (k == 1) {
             panel = humalatPanel;
+            otsikko = "Humalat";
         }
         if (k == 2) {
             panel = muutAineetPanel;
+            otsikko = "Muut ainekset";
         }
+        
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
+        panel.add(new JLabel(otsikko));
+        
         for (int i = 0; i < 3; i++) {
             panel.add(luoUusiRivi(k));
         }

@@ -9,3 +9,5 @@ Ensimmäinen deadline:
 27.1. 4h Tiedoston kirjoittamiseen tutustumista ja metodien koodausta.
 29.1. 3h Testien kirjoittamista, refaktorointia, viilausta.
 30.1. 3h Luokkakaavio, testejä
+31.1. 2h Graafiseen käyttöliittymän rakentelua
+3.2. 4h Eka versio graafisesta käyttöliittymästä

@@ -57,12 +57,11 @@ public class BrewscaleGUI implements Runnable {
 
         JScrollPane maltaat = e.ainesPanel(0);
         JScrollPane humalat = e.ainesPanel(1);
+        JScrollPane muutAinekset = e.ainesPanel(2);
         
         JPanel koko = e.reseptinKokoPanel();
 
-        JPanel konversio = new JPanel();
-        JLabel label5 = new JLabel("Konversio");
-        konversio.add(label5);
+        JPanel konversio = e.konversioPanel();
 
         JPanel uusiResepti = new JPanel();
         JLabel uusiReseptiLabel = new JLabel("uusi resepti");
@@ -93,6 +92,10 @@ public class BrewscaleGUI implements Runnable {
         gbc.gridx = 0;
         gbc.gridy = 4;
         panel.add(humalat, gbc);
+        
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        panel.add(muutAinekset, gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 2;
