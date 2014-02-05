@@ -15,6 +15,11 @@ import java.io.IOException;
  */
 public class Brewscale {
 
+    /**
+     * Luokan Resepti instanssi jota Brewscale käsittelee
+     *
+     * @see brewscale.resepti.Resepti
+     */
     private Resepti resepti;
 
     public Brewscale(Resepti resepti) {
@@ -33,16 +38,32 @@ public class Brewscale {
         return resepti;
     }
 
+    /**
+     * Tallentaa aktiivisen reseptin tiedostoon. Käyttää FileHandler-luokkaa.
+     *
+     * @see brewscale.brewscale.FileHandler
+     */
     public void tallenna() {
         FileHandler bw = new FileHandler();
         bw.tallennaResepti(resepti.toString(), reseptiTeksti());
     }
-    
+
+    /**
+     * Lataa reseptin tiedostosta.
+     *
+     * @param tiedostonimi Ladattavan tiedoston nimi.
+     */
     public void lataa(String tiedostonimi) {
-      FileHandler bw = new FileHandler();
+        FileHandler bw = new FileHandler();
         resepti = bw.lueResepti(tiedostonimi);
     }
 
+    /**
+     * Metodi skaalaa reseptin kaikki raaka-aineet annetun kertoimen mukaisesti.
+     * Mikäli kerroin on negatiivinen, metodi ei tee mitään
+     *
+     * @param kerroin Annettu kerroin
+     */
     public void skaalaa(double kerroin) {
         if (kerroin < 0) {
             return;
@@ -54,13 +75,22 @@ public class Brewscale {
         }
     }
 
+    /**
+     * Muuttaa aktiivisen reseptin yksiköt grammoiksi.
+     */
     public void muutaGrammoiksi() {
         for (Aines a : resepti.getAinekset()) {
             a.setMaara(a.getMaara() * yksikkoMuuntoKerroin(a.getYksikko(), "g"));
             a.setYksikko("g");
         }
     }
-    
+
+    /**
+     * Laskee muuntokertoimen muunnettaessa yksiköstä toiseen
+     * @param alku Yksikkö josta muutetaan.
+     * @param loppu Yksikkö johon muutetaan.
+     * @return Muuntokerroin.
+     */
     private double yksikkoMuuntoKerroin(String alku, String loppu) {
         double unssi = 28.35;
         double pauna = 453.60;
