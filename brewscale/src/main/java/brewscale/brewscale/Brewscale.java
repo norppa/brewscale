@@ -147,7 +147,7 @@ public class Brewscale {
 //                + "Yksikkö: " + resepti.getKokoYksikko() + "\n"
 //                + "\nMaltaat:\n";
         String reseptiTeksti = resepti.getNimi() + " (" + resepti.getKoko() + " " + resepti.getKokoYksikko() + ")\n\nMaltaat:\n";
-        for (RaakaAine m : resepti.getMaltaat()) {
+        for (Mallas m : resepti.getMaltaat()) {
             reseptiTeksti += m.getMaara() + " " + m.getYksikko() + " " + m.getNimi() + "\n";
         }
         reseptiTeksti += "\nHumalat:\n";

@@ -120,6 +120,13 @@ public class Resepti {
         muutAinekset.add(lisattava);
         ainekset.add(lisattava);
     }
+    
+    public void tyhjennaAinekset() {
+        maltaat.clear();
+        humalat.clear();
+        muutAinekset.clear();
+        ainekset.clear();
+    }
 
     public void lisaaMuistiinpano(String mp) {
         muistiinpanot += mp + "\n";
