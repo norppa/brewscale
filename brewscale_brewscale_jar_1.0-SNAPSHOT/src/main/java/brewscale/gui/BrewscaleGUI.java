@@ -5,34 +5,40 @@
  */
 package brewscale.gui;
 
+import brewscale.brewscale.Brewscale;
+import brewscale.resepti.*;
+import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.ArrayList;
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.border.TitledBorder;
+import javax.swing.WindowConstants;
 
-/**
- *
- * @author riha
- */
-public class Elements {
+public class BrewscaleGUI implements Runnable {
 
+    private JFrame frame;
+    private Brewscale brewscale;
     private String[] tilavuusLista, painoLista;
     private ArrayList<JTextField>[] nimiListat, maaraListat;
     private ArrayList<JComboBox>[] yksikkoListat;
     private FocusListener[] vikanRivinKuuntelijat;
-    private final JPanel maltaatPanel, humalatPanel, muutAineetPanel;
+    private JPanel panel, maltaatPanel, humalatPanel, muutAineetPanel, konversioPanel, kokoPanel;
 
-    public Elements() {
+    public BrewscaleGUI(Brewscale brewscale) {
+        this.brewscale = brewscale;
         tilavuusLista = new String[]{"l", "gal"};
         painoLista = new String[]{"g", "oz", "lbs"};
         nimiListat = new ArrayList[3];
@@ -42,46 +48,125 @@ public class Elements {
         maltaatPanel = new JPanel();
         humalatPanel = new JPanel();
         muutAineetPanel = new JPanel();
+        konversioPanel = new JPanel();
     }
 
-    public JPanel reseptinKokoPanel() {
+    @Override
+    public void run() {
+        frame = new JFrame("Brewscale");
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        initGUI(frame.getContentPane());
+        frame.pack();
+        frame.setVisible(true);
+    }
+
+    private void initGUI(Container c) {
+
+
+        JPanel nappulat = new JPanel();
+        JButton avaaReseptiBtn = new JButton("Avaa resepti");
+        avaaReseptiBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                avaaReseptiPainettu(evt);
+            }
+        });
+        JButton uusiReseptiBtn = new JButton("Uusi resepti");
+        uusiReseptiBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                uusiReseptiPainettu(evt);
+            }
+        });
+        nappulat.add(avaaReseptiBtn);
+        nappulat.add(uusiReseptiBtn);
+
+        kokoPanel = reseptinKokoPanel();
+
+        panel = new JPanel();
+        this.getFrame().add(panel);
+        panel.add(nappulat);
+        
+        panel.add(kokoPanel);
+
+        panel.add(konversioPanel);
+    }
+
+    public JFrame getFrame() {
+        return frame;
+    }
+
+    private void avaaReseptiPainettu(java.awt.event.ActionEvent evt) {
+        System.out.println("Nappia painettu");
+    }
+
+    private void uusiReseptiPainettu(java.awt.event.ActionEvent evt) {
+        brewscale.setResepti(new Resepti("", 0, "l"));
+//        panel.remove(kokoPanel);
+        kokoPanel = reseptinKokoPanel();
+
+        panel.revalidate();
+        panel.repaint();
+    }
+
+    private JPanel reseptinKokoPanel() {
         JPanel reseptinKokoPanel = new JPanel();
         reseptinKokoPanel.add(new JLabel("Satsin koko:"));
-        reseptinKokoPanel.add(new JTextField("", 5) );
+        reseptinKokoPanel.add(new JTextField(brewscale.getResepti().getKoko() + "", 5));
         reseptinKokoPanel.add(new JComboBox(tilavuusLista));
 
         reseptinKokoPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         return reseptinKokoPanel;
     }
-    
-
 
     public JScrollPane ainesPanel(int k) {  // 0 = maltaat, 1 = humalat, 2 = muut
 
         nimiListat[k] = new ArrayList<JTextField>();
         maaraListat[k] = new ArrayList<JTextField>();
         yksikkoListat[k] = new ArrayList<JComboBox>();
+        ArrayList<RaakaAine> ainesLista = new ArrayList<RaakaAine>();
 
         JPanel panel = new JPanel();
         String otsikko = "";
-        
+
         if (k == 0) {
             panel = maltaatPanel;
             otsikko = "Maltaat";
+            ArrayList<Mallas> maltaat = brewscale.getResepti().getMaltaat();
+            for (Mallas m : maltaat) {
+                ainesLista.add(m);
+            }
         }
         if (k == 1) {
             panel = humalatPanel;
             otsikko = "Humalat";
+            ArrayList<Humala> humalat = brewscale.getResepti().getHumalat();
+            for (Humala h : humalat) {
+                ainesLista.add(h);
+            }
         }
         if (k == 2) {
             panel = muutAineetPanel;
             otsikko = "Muut ainekset";
+            ArrayList<Aines> muutAinekset = brewscale.getResepti().getMuutAinekset();
+            for (Aines a : muutAinekset) {
+                ainesLista.add(a);
+            }
         }
-        
+
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.add(new JLabel(otsikko));
-        
-        for (int i = 0; i < 3; i++) {
+
+        if (ainesLista.size() == 0) {
+            for (int i = 0; i < 3; i++) {
+                panel.add(luoUusiRivi(k));
+            }
+        } else {
+            for (int i = 0; i < ainesLista.size(); i++) {
+                panel.add(luoUusiRivi(k));
+                nimiListat[k].get(0).setText(ainesLista.get(i).getNimi());
+                maaraListat[k].get(0).setText(ainesLista.get(i).getMaara() + "");
+                yksikkoListat[k].get(0).setSelectedItem(ainesLista.get(i).getYksikko());
+            }
             panel.add(luoUusiRivi(k));
         }
 
@@ -138,73 +223,6 @@ public class Elements {
         return null;
     }
 
-//    public JScrollPane maltaatPanel() {
-//
-//        nimiListat[0] = new ArrayList<JTextField>();
-//        maaraListat[0] = new ArrayList<JTextField>();
-//        yksikkoListat[0] = new ArrayList<JComboBox>();
-//
-//        maltaatPanel = new JPanel();
-//        maltaatPanel.setLayout(new BoxLayout(maltaatPanel, BoxLayout.Y_AXIS));
-//
-//        for (int i = 0; i < 3; i++) {
-//            maltaatPanel.add(luoUusiRivi("maltaat"));
-//        }
-//
-//        vikanRivinKuuntelijat[0] = new FocusListener() {
-//            public void focusGained(FocusEvent evt) {
-//                maltaatPanel.add(luoUusiRivi("maltaat"));
-//                paivitaKuuntelijat("maltaat");
-//                maltaatPanel.revalidate();
-//            }
-//
-//            public void focusLost(FocusEvent evt) {
-//            }
-//        };
-//
-//        nimiListat[0].get(0).addFocusListener(vikanRivinKuuntelijat[0]);
-//        maaraListat[0].get(0).addFocusListener(vikanRivinKuuntelijat[0]);
-//        yksikkoListat[0].get(0).addFocusListener(vikanRivinKuuntelijat[0]);
-//
-//        JScrollPane pane = new JScrollPane(maltaatPanel);
-//        pane.setPreferredSize(new Dimension(400, 200));
-//
-//        return pane;
-//    }
-//
-//    public JScrollPane humalatPanel() {
-//
-//        nimiListat[1] = new ArrayList<JTextField>();
-//        maaraListat[1] = new ArrayList<JTextField>();
-//        yksikkoListat[1] = new ArrayList<JComboBox>();
-//
-//        humalatPanel = new JPanel();
-//        humalatPanel.setLayout(new BoxLayout(humalatPanel, BoxLayout.Y_AXIS));
-//
-//        for (int i = 0; i < 3; i++) {
-//            humalatPanel.add(luoUusiRivi("humalat"));
-//        }
-//
-//        vikanRivinKuuntelijat[1] = new FocusListener() {
-//            public void focusGained(FocusEvent evt) {
-//                humalatPanel.add(luoUusiRivi("humalat"));
-//                paivitaKuuntelijat("humalat");
-//                humalatPanel.revalidate();
-//            }
-//
-//            public void focusLost(FocusEvent evt) {
-//            }
-//        };
-//
-//        nimiListat[1].get(0).addFocusListener(vikanRivinKuuntelijat[1]);
-//        maaraListat[1].get(0).addFocusListener(vikanRivinKuuntelijat[1]);
-//        yksikkoListat[1].get(0).addFocusListener(vikanRivinKuuntelijat[1]);
-//
-//        JScrollPane pane = new JScrollPane(humalatPanel);
-//        pane.setPreferredSize(new Dimension(400, 200));
-//
-//        return pane;
-//    }
     private JPanel luoUusiRivi(int i) {
         if (i < 0 || i > 2) {
             return null;
@@ -234,5 +252,4 @@ public class Elements {
         maaraListat[i].get(0).addFocusListener(vikanRivinKuuntelijat[i]);
         yksikkoListat[i].get(0).addFocusListener(vikanRivinKuuntelijat[i]);
     }
-
 }

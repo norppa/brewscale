@@ -11,3 +11,4 @@ Ensimmäinen deadline:
 30.1. 3h Luokkakaavio, testejä
 31.1. 2h Graafiseen käyttöliittymän rakentelua
 3.2. 4h Eka versio graafisesta käyttöliittymästä
+5.2. 4h Javadocs aloitettu, lisää guita
