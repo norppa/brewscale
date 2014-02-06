@@ -31,7 +31,7 @@ public class App
         Brewscale b = new Brewscale();
         b.setResepti(resepti);
         
-        System.out.println(b.getResepti().getKoko() + "");
+//        System.out.println(b.getResepti().getKoko() + "");
         
         BrewscaleGUI gui = new BrewscaleGUI(b);
         gui.run();

@@ -91,6 +91,26 @@ public class Resepti {
         humalat.add(lisattava);
         ainekset.add(lisattava);
     }
+    
+    /**
+     * Luo uuden humalan ja lisää sen reseptiin käyttäen metodia lisaaHumala().
+     * 
+     * @param nimi Luotavan humalan nimi.
+     * @param maara Luotavan humalan määrä.
+     * @param yksikko Yksikkö, jonka avulla määrä on esitetty.
+     * @param alpha Humalan alpha-happopitoisuus (%).
+     */
+    public void lisaaHumala(String nimi, String maara, String yksikko, String alpha) {
+        double maaraDbl = 0, alphaDbl = 0;
+        try {
+            maaraDbl = Double.parseDouble(maara);
+            alphaDbl = Double.parseDouble(alpha);
+        } catch (NumberFormatException e) {
+            return;
+        }
+        
+        lisaaHumala(new Humala(nimi, maaraDbl, yksikko, alphaDbl));
+    }
 
     /**
      * Korvaa reseptistä yhden humalan. 
@@ -119,6 +139,16 @@ public class Resepti {
     public void lisaaAines(Aines lisattava) {
         muutAinekset.add(lisattava);
         ainekset.add(lisattava);
+    }
+    
+    public void lisaaAines(String nimi, String maara, String yksikko) {
+        double maaraDbl = 0;
+        try {
+            maaraDbl = Double.parseDouble(maara);
+        } catch (NumberFormatException e) {
+            return;
+        }
+        lisaaAines(new Aines(nimi, maaraDbl, yksikko));
     }
     
     public void tyhjennaAinekset() {

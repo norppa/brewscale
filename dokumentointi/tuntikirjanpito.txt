@@ -12,3 +12,4 @@ Ensimmäinen deadline:
 31.1. 2h Graafiseen käyttöliittymän rakentelua
 3.2. 4h Eka versio graafisesta käyttöliittymästä
 5.2. 4h Javadocs aloitettu, lisää guita
+6.2. 4h Sekvenssikaaviot, gui, testejä, refaktorointia
