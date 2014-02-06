@@ -74,6 +74,11 @@ public class Brewscale {
             a.setMaara(a.getMaara() * kerroin);
         }
     }
+    
+    public void skaalaa(double alkuTilavuus, String alkuYksikko, double loppuTilavuus, String loppuYksikko) {
+        double kerroin = alkuTilavuus * yksikkoMuuntoKerroin(alkuYksikko, loppuYksikko) / loppuTilavuus;
+        skaalaa(kerroin);
+    }
 
     /**
      * Muuttaa aktiivisen reseptin yksiköt grammoiksi.
@@ -94,6 +99,7 @@ public class Brewscale {
     private double yksikkoMuuntoKerroin(String alku, String loppu) {
         double unssi = 28.35;
         double pauna = 453.60;
+        double gallona = 4.546; 
 
         if (alku.equals(loppu)) {
             return 1;
@@ -116,6 +122,14 @@ public class Brewscale {
         if (loppu.equals("lbs") && alku.equals("oz")) {
             return 1 / 16;
         }
+        
+        if (loppu.equals("l") && alku.equals("gal")) {
+            return gallona;
+        }
+        if (loppu.equals("gal") && alku.equals("l")) {
+            return 1/gallona;
+        }
+        
         return 0;
     }
 

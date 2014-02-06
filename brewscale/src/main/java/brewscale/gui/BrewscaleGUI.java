@@ -34,21 +34,14 @@ public class BrewscaleGUI implements Runnable {
     private String[] tilavuusLista, painoLista;
     private ArrayList<JTextField>[] nimiListat, maaraListat;
     private ArrayList<JComboBox>[] yksikkoListat;
+    private JTextField uusiTilavuusField;
+    private JComboBox uusiTilavuusCombo;
     private FocusListener[] vikanRivinKuuntelijat;
-    private JPanel maltaatPanel, humalatPanel, muutAineetPanel, konversioPanel, kokoPanel;
+    private JPanel maltaatPanel, humalatPanel, muutAineetPanel, konversioPanel, kokoPanel, panel;
 
     public BrewscaleGUI(Brewscale brewscale) {
         this.brewscale = brewscale;
-        tilavuusLista = new String[]{"l", "gal"};
-        painoLista = new String[]{"g", "oz", "lbs"};
-        nimiListat = new ArrayList[3];
-        maaraListat = new ArrayList[3];
-        yksikkoListat = new ArrayList[3];
-        vikanRivinKuuntelijat = new FocusListener[3];
-        maltaatPanel = new JPanel();
-        humalatPanel = new JPanel();
-        muutAineetPanel = new JPanel();
-        konversioPanel = new JPanel();
+        alustaMuuttujat();
     }
 
     @Override
@@ -61,11 +54,12 @@ public class BrewscaleGUI implements Runnable {
         frame.setVisible(true);
     }
 
-    private void initGUI(Container panel) {
+    private void initGUI(Container c) {
 
         ImageIcon otsikko = null;
         try {
-            otsikko = new ImageIcon(getClass().getResource("./brewscale_logo.png"));
+            otsikko = new ImageIcon(getClass().getResource("brewscale_logo.png"));
+
         } catch (NullPointerException exc) {
             System.out.println("Otsikkokuvaa ei löydy");
         }
@@ -84,6 +78,14 @@ public class BrewscaleGUI implements Runnable {
                 uusiReseptiPainettu(evt);
             }
         });
+
+        JButton muutaGrammoiksiBtn = new JButton("Muuta resepti grammoiksi");
+        muutaGrammoiksiBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                muutaGrammoiksiPainettu();
+            }
+        });
+
         nappulat.add(avaaReseptiBtn);
         nappulat.add(uusiReseptiBtn);
 
@@ -133,6 +135,10 @@ public class BrewscaleGUI implements Runnable {
         gbc.gridy = 2;
         panel.add(konversioPanel, gbc);
 
+        gbc.gridx = 2;
+        gbc.gridy = 2;
+        panel.add(muutaGrammoiksiBtn, gbc);
+
         gbc.gridx = 1;
         gbc.gridy = 3;
         panel.add(uusiResepti, gbc);
@@ -143,12 +149,42 @@ public class BrewscaleGUI implements Runnable {
         return frame;
     }
 
+    private void alustaMuuttujat() {
+        tilavuusLista = new String[]{"l", "gal"};
+        painoLista = new String[]{"g", "oz", "lbs"};
+        nimiListat = new ArrayList[3];
+        maaraListat = new ArrayList[3];
+        yksikkoListat = new ArrayList[3];
+        vikanRivinKuuntelijat = new FocusListener[3];
+        maltaatPanel = new JPanel();
+        humalatPanel = new JPanel();
+        muutAineetPanel = new JPanel();
+        konversioPanel = new JPanel();
+    }
+
+    private void uudistaNakyma() {
+        alustaMuuttujat();
+        frame.remove(panel);
+        initGUI(frame.getContentPane());
+        frame.revalidate();
+        frame.repaint();
+
+    }
+
     private JPanel konversioPanel() {
         JPanel panel = new JPanel();
         panel.add(new JLabel("Skaalaa resepti kokoon"));
-        panel.add(new JTextField(" ", 5));
-        panel.add(new JComboBox(tilavuusLista));
-        panel.add(new JButton("Skaalaa"));
+        uusiTilavuusField = new JTextField(" ", 5);
+        panel.add(uusiTilavuusField);
+        uusiTilavuusCombo = new JComboBox(tilavuusLista);
+        panel.add(uusiTilavuusCombo);
+        JButton button = new JButton("Skaalaa");
+        button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                skaalaaResepti();
+            }
+        });
+        panel.add(button);
 
         panel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         return panel;
@@ -156,16 +192,26 @@ public class BrewscaleGUI implements Runnable {
 
     private void avaaReseptiPainettu(java.awt.event.ActionEvent evt) {
         System.out.println("Nappia painettu");
-
     }
 
     private void uusiReseptiPainettu(java.awt.event.ActionEvent evt) {
         brewscale.setResepti(new Resepti("", 0, "l"));
-        frame.removeAll();
-        initGUI(frame.getContentPane());
-        frame.revalidate();
-        frame.repaint();
+        uudistaNakyma();
+    }
 
+    private void skaalaaResepti() {
+        double vanhaTilavuus = brewscale.getResepti().getKoko();
+        double uusiTilavuus = Double.parseDouble(uusiTilavuusField.getText());
+        String vanhaYksikko = brewscale.getResepti().getKokoYksikko();
+        String uusiYksikko = uusiTilavuusCombo.getSelectedItem().toString();
+        brewscale.skaalaa(vanhaTilavuus, vanhaYksikko, uusiTilavuus, uusiYksikko);
+
+        uudistaNakyma();
+    }
+    
+    private void muutaGrammoiksiPainettu() {
+        brewscale.muutaGrammoiksi();
+        uudistaNakyma();
     }
 
     private JPanel reseptinKokoPanel() {
