@@ -65,6 +65,16 @@ public class BrewscaleTest extends TestCase {
             assertEquals(0, a.getMaara(), 0.001);
         }
     }
+    
+    public void testSkaalainToimiiVaarillaYksikoilla() {
+        brewscale.skaalaa(20, "h");
+        assertEquals(10.0, brewscale.getResepti().getKoko(), 0.001);
+    }
+    
+    public void testSkaalainToimii() {
+        brewscale.skaalaa(20, "l");
+        assertEquals(20.0, brewscale.getResepti().getKoko(), 0.001);
+    }
 
     private void lisaaAineita(String yksikko) {
         resepti.lisaaMallas(new Mallas("Mallas 1", 10, yksikko));

@@ -31,7 +31,8 @@ public class BrewscaleGUI implements Runnable {
 
     private JFrame frame;
     private Brewscale brewscale;
-    private String[] tilavuusLista, painoLista;
+    private final String[] tilavuusLista = new String[]{"l", "gal"} , 
+            painoLista = new String[]{"g", "oz", "lbs"};
     private ArrayList<JTextField>[] nimiListat, maaraListat;
     private ArrayList<JComboBox>[] yksikkoListat;
     private JTextField uusiTilavuusField;
@@ -150,8 +151,6 @@ public class BrewscaleGUI implements Runnable {
     }
 
     private void alustaMuuttujat() {
-        tilavuusLista = new String[]{"l", "gal"};
-        painoLista = new String[]{"g", "oz", "lbs"};
         nimiListat = new ArrayList[3];
         maaraListat = new ArrayList[3];
         yksikkoListat = new ArrayList[3];
@@ -168,7 +167,6 @@ public class BrewscaleGUI implements Runnable {
         initGUI(frame.getContentPane());
         frame.revalidate();
         frame.repaint();
-
     }
 
     private JPanel konversioPanel() {
@@ -204,7 +202,7 @@ public class BrewscaleGUI implements Runnable {
         double uusiTilavuus = Double.parseDouble(uusiTilavuusField.getText());
         String vanhaYksikko = brewscale.getResepti().getKokoYksikko();
         String uusiYksikko = uusiTilavuusCombo.getSelectedItem().toString();
-        brewscale.skaalaa(vanhaTilavuus, vanhaYksikko, uusiTilavuus, uusiYksikko);
+        brewscale.skaalaa(uusiTilavuus, uusiYksikko);
 
         uudistaNakyma();
     }
