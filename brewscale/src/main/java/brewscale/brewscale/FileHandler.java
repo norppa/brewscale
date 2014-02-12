@@ -38,31 +38,18 @@ public class FileHandler {
         } catch (IOException e) {
         }
     }
-
+    
     public Resepti lueResepti(String nimi) {
-        Resepti resepti = null;
         File tiedosto = new File(hakemisto + nimi);
+        return lueResepti(tiedosto);
+    }
+   
 
+    public Resepti lueResepti(File tiedosto) {
+        Resepti resepti = null;
+        
         try {
             BufferedReader reader = new BufferedReader(new FileReader(tiedosto));
-//            String reseptinNimi = reader.readLine();
-//            if (!reseptinNimi.startsWith("Nimi: ")) {
-//                return null;
-//            }
-//            reseptinNimi = reseptinNimi.substring(6);
-//
-//            String reseptinKoko = reader.readLine();
-//            if (!reseptinKoko.startsWith("Koko: ")) {
-//                return null;
-//            }
-//            double reseptinKokoDbl = Double.parseDouble(reseptinKoko.substring(6));
-//
-//            String reseptinKokoYksikko = reader.readLine();
-//            if (!reseptinKokoYksikko.startsWith("Yksikkö: ")) {
-//                return null;
-//            }
-//            reseptinKokoYksikko = reseptinKokoYksikko.substring(9);
-
             String rivi = reader.readLine();
             String[] otsikko = erotteleOtsikko(rivi);
 
@@ -104,6 +91,15 @@ public class FileHandler {
                 resepti.lisaaAines(new Aines(osat[2], Double.parseDouble(osat[0]), osat[1]));
                 rivi = reader.readLine();
             }
+            
+            reader.readLine();
+            String ohjeet = "";
+            rivi = reader.readLine();
+            while (!rivi.equals("")) {
+                ohjeet += rivi;
+                rivi = reader.readLine();
+            }
+            resepti.setOhje(ohjeet);
 
             reader.close();
         } catch (IOException e) {

@@ -158,7 +158,8 @@ public class Brewscale {
         for (Aines a : resepti.getMuutAinekset()) {
             reseptiTeksti += a.getMaara() + " " + a.getYksikko() + " " + a.getNimi() + "\n";
         }
-        reseptiTeksti += "\nMuistiinpanoja:\n" + resepti.muistiinpanot();
+        reseptiTeksti += "\nOhjeet:\n" + resepti.getOhje();
+        reseptiTeksti += "\nMuistiinpanoja:\n" + resepti.getMuistiinpanot();
 
         return reseptiTeksti;
     }

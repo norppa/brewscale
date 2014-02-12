@@ -28,6 +28,8 @@ public class App
         Aines a1 = new Aines("Sokeri", 500);
         resepti.lisaaAines(a1);
         
+        resepti.setOhje("Keittele kunnes valmista");
+        
         Brewscale b = new Brewscale();
         b.setResepti(resepti);
         

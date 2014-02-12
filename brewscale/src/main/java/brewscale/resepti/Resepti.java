@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class Resepti {
 
-    private String nimi, muistiinpanot;
+    private String nimi, muistiinpanot, ohje;
     private double koko;
     private String kokoYksikko;
 //    private ArrayList<RaakaAine> maltaat;
@@ -29,12 +29,13 @@ public class Resepti {
         }
         this.koko = koko;
         this.kokoYksikko = kokoYksikko;
-        this.muistiinpanot = "";
         this.maltaat = new ArrayList<Mallas>();
 //        this.maltaat = new ArrayList<RaakaAine>();
         this.humalat = new ArrayList<Humala>();
         this.muutAinekset = new ArrayList<Aines>();
         this.ainekset = new ArrayList<Aines>();
+        this.ohje = "";
+        this.muistiinpanot = "";
     }
 
     public Resepti(String nimi, double koko) {
@@ -190,8 +191,16 @@ public class Resepti {
         return kokoYksikko;
     }
 
-    public String muistiinpanot() {
+    public String getMuistiinpanot() {
         return muistiinpanot;
+    }
+    
+    public void setOhje(String ohje) {
+        this.ohje = ohje;
+    }
+    
+    public String getOhje() {
+        return ohje;
     }
 
     public String toString() {

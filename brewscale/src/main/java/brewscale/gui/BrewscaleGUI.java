@@ -6,6 +6,7 @@
 package brewscale.gui;
 
 import brewscale.brewscale.Brewscale;
+import brewscale.brewscale.FileHandler;
 import brewscale.resepti.*;
 import java.awt.BorderLayout;
 import java.awt.Container;
@@ -14,11 +15,14 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.io.File;
 import java.util.ArrayList;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -37,10 +41,11 @@ public class BrewscaleGUI implements Runnable {
     private ArrayList<JTextField>[] nimiListat, maaraListat;
     private ArrayList<JComboBox>[] yksikkoListat;
     private ArrayList<JTextField> alphaMaaraLista;
-    private JTextField tilavuusField, uusiTilavuusField;
+    private JTextField nimiField, tilavuusField, uusiTilavuusField;
+    private JTextArea ohjeetArea, muistiinpanotArea;
     private JComboBox tilavuusCombo, uusiTilavuusCombo;
     private FocusListener[] vikanRivinKuuntelijat;
-    private JPanel maltaatPanel, humalatPanel, muutAineetPanel, konversioPanel, kokoPanel, panel;
+    private JPanel maltaatPanel, humalatPanel, muutAineetPanel, konversioPanel, panel;
 
     public BrewscaleGUI(Brewscale brewscale) {
         this.brewscale = brewscale;
@@ -59,134 +64,49 @@ public class BrewscaleGUI implements Runnable {
 
     private void initGUI(Container c) {
 
-        JLabel otsikkoLabel = otsikko();
+        JPanel toimintoPanel = new JPanel();
+        toimintoPanel.setLayout(new BoxLayout(toimintoPanel, BoxLayout.PAGE_AXIS));
 
-        JPanel nappulat = new JPanel();
+        toimintoPanel.add(tiedostoToiminnotPanel());
+        toimintoPanel.add(reseptiToiminnotPanel());
 
-        JButton uusiReseptiBtn = new JButton("Uusi resepti");
-        uusiReseptiBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                uusiReseptiPainettu();
-            }
-        });
-
-        JButton avaaReseptiBtn = new JButton("Avaa resepti");
-        avaaReseptiBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                avaaReseptiPainettu();
-            }
-        });
-
-        JButton tallennaReseptiBtn = new JButton("Tallenna resepti");
-        tallennaReseptiBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tallennaReseptiPainettu();
-            }
-        });
-
-        JButton muutaGrammoiksiBtn = new JButton("Muuta resepti grammoiksi");
-        muutaGrammoiksiBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                muutaGrammoiksiPainettu();
-            }
-        });
-
-        nappulat.add(uusiReseptiBtn);
-        nappulat.add(avaaReseptiBtn);
-        nappulat.add(tallennaReseptiBtn);
-
-        JScrollPane maltaat = maltaatPanel();
-        JScrollPane humalat = humalatPanel();
-        JScrollPane muutAinekset = muutAineksetPanel();
-
-        kokoPanel = reseptinKokoPanel();
-
-        konversioPanel = konversioPanel();
+        JScrollPane maltaatPanel = maltaatPanel();
+        JScrollPane humalatPanel = humalatPanel();
+        JScrollPane muutAineksetPanel = muutAineksetPanel();
 
         JPanel uusiResepti = new JPanel();
         JLabel uusiReseptiLabel = new JLabel("uusi resepti");
         uusiResepti.add(uusiReseptiLabel);
 
         JPanel reseptiPanel = new JPanel();
-        reseptiPanel.setLayout(new BoxLayout(reseptiPanel, BoxLayout.PAGE_AXIS));
-        
-        reseptiPanel.add(kokoPanel);
-        reseptiPanel.add(maltaat);
-        reseptiPanel.add(humalat);
-        reseptiPanel.add(muutAinekset);
-        
-        
-        JPanel toimintoPanel = new JPanel();
-        toimintoPanel.setLayout(new BoxLayout(toimintoPanel, BoxLayout.PAGE_AXIS));
+        reseptiPanel.setLayout(new BoxLayout(reseptiPanel, BoxLayout.LINE_AXIS));
+        JPanel reseptiAineksetPanel = new JPanel();
+        reseptiAineksetPanel.setLayout(new BoxLayout(reseptiAineksetPanel, BoxLayout.PAGE_AXIS));
+        JPanel reseptiMuutPanel = new JPanel();
+        reseptiMuutPanel.setLayout(new BoxLayout(reseptiMuutPanel, BoxLayout.PAGE_AXIS));
+        reseptiPanel.add(reseptiAineksetPanel);
+        reseptiPanel.add(reseptiMuutPanel);
 
-        toimintoPanel.add(nappulat);
-        toimintoPanel.add(muutaGrammoiksiBtn);
-        toimintoPanel.add(konversioPanel);
-        
+        reseptiMuutPanel.add(reseptiNimiPanel());
+        reseptiMuutPanel.add(reseptinKokoPanel());
+        reseptiMuutPanel.add(ohjeetArea());
+        reseptiMuutPanel.add(muistiinpanotArea());
+        reseptiAineksetPanel.add(maltaatPanel);
+        reseptiAineksetPanel.add(humalatPanel);
+        reseptiAineksetPanel.add(muutAineksetPanel);
+
         panel = new JPanel();
         this.getFrame().add(panel);
-        panel.add(otsikkoLabel, BorderLayout.PAGE_START);
-        panel.add(reseptiPanel, BorderLayout.LINE_START);
-        panel.add(toimintoPanel, BorderLayout.LINE_END);
-        panel.setPreferredSize(new Dimension(1000,850));
+        panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+        panel.add(otsikkoLabel());
+        panel.add(toimintoPanel);
+        panel.add(reseptiPanel);
+        panel.setPreferredSize(new Dimension(1000, 850));
 
-//        panel = new JPanel(new GridBagLayout());
-//        this.getFrame().add(panel);
-//        GridBagConstraints gbc = new GridBagConstraints();
-//
-//        gbc.gridx = 1;
-//        gbc.gridy = 0;
-//        gbc.gridwidth = 2;
-//        panel.add(otsikkoLabel, gbc);
-//
-//        gbc.gridx = 1;
-//        gbc.gridy = 1;
-//        gbc.gridwidth = 2;
-//        panel.add(nappulat, gbc);
-//
-//        gbc.gridx = 0;
-//        gbc.gridy = 2;
-//        panel.add(kokoPanel, gbc);
-//
-//        gbc.gridx = 0;
-//        gbc.gridy = 3;
-//        panel.add(maltaat, gbc);
-//
-//        gbc.gridx = 0;
-//        gbc.gridy = 4;
-//        panel.add(humalat, gbc);
-//
-//        gbc.gridx = 0;
-//        gbc.gridy = 5;
-//        panel.add(muutAinekset, gbc);
-//
-//        gbc.gridx = 1;
-//        gbc.gridy = 2;
-//        panel.add(konversioPanel, gbc);
-//
-//        gbc.gridx = 2;
-//        gbc.gridy = 2;
-//        panel.add(muutaGrammoiksiBtn, gbc);
-//
-//        gbc.gridx = 1;
-//        gbc.gridy = 3;
-//        panel.add(uusiResepti, gbc);
     }
 
     public JFrame getFrame() {
         return frame;
-    }
-
-    private JLabel otsikko() {
-        ImageIcon otsikkoImageIcon = null;
-        try {
-            otsikkoImageIcon = new ImageIcon(getClass().getResource("brewscale_logo.png"));
-
-        } catch (NullPointerException exc) {
-            System.out.println("Otsikkokuvaa ei löydy");
-        }
-        JLabel otsikkoLabel = new JLabel(otsikkoImageIcon);
-        return otsikkoLabel;
     }
 
     private void alustaMuuttujat() {
@@ -209,32 +129,26 @@ public class BrewscaleGUI implements Runnable {
         frame.repaint();
     }
 
-    private JPanel konversioPanel() {
-        JPanel panel = new JPanel();
-        panel.add(new JLabel("Skaalaa resepti kokoon"));
-        uusiTilavuusField = new JTextField(" ", 5);
-        panel.add(uusiTilavuusField);
-        uusiTilavuusCombo = new JComboBox(tilavuusLista);
-        panel.add(uusiTilavuusCombo);
-        JButton button = new JButton("Skaalaa");
-        button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                skaalaaResepti();
-            }
-        });
-        panel.add(button);
-
-        panel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        return panel;
-    }
-
     private void uusiReseptiPainettu() {
         brewscale.setResepti(new Resepti("", 0, "l"));
         uudistaNakyma();
     }
 
     private void avaaReseptiPainettu() {
-        System.out.println("Nappia painettu");
+        JFileChooser fc = new JFileChooser("./reseptit/");
+        int rVal = fc.showOpenDialog(panel);
+        if (rVal == JFileChooser.APPROVE_OPTION) {
+            File avattavaTiedosto = fc.getSelectedFile();
+
+            FileHandler fileHandler = new FileHandler();
+
+            Resepti avattuResepti = fileHandler.lueResepti(avattavaTiedosto);
+            if (avattuResepti == null) {
+                return;
+            }
+            brewscale.setResepti(avattuResepti);
+            uudistaNakyma();
+        }
     }
 
     private void tallennaReseptiPainettu() {
@@ -256,18 +170,6 @@ public class BrewscaleGUI implements Runnable {
         uudistaNakyma();
     }
 
-    private JPanel reseptinKokoPanel() {
-        JPanel reseptinKokoPanel = new JPanel();
-        reseptinKokoPanel.add(new JLabel("Satsin koko:"));
-        tilavuusField = new JTextField(brewscale.getResepti().getKoko() + "", 5);
-        tilavuusCombo = new JComboBox(tilavuusLista);
-        reseptinKokoPanel.add(tilavuusField);
-        reseptinKokoPanel.add(tilavuusCombo);
-
-        reseptinKokoPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        return reseptinKokoPanel;
-    }
-
     public JScrollPane muutAineksetPanel() {
 
         nimiListat[2] = new ArrayList<JTextField>();
@@ -278,7 +180,7 @@ public class BrewscaleGUI implements Runnable {
         panel = muutAineetPanel;
         ArrayList<Aines> muutAineksetLista = brewscale.getResepti().getMuutAinekset();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.add(new JLabel("Muut ainekset"));
+//        panel.add(new JLabel("Muut ainekset"));
 
         if (muutAineksetLista.size() == 0) {
             for (int i = 0; i < 3; i++) {
@@ -297,6 +199,7 @@ public class BrewscaleGUI implements Runnable {
         lisaaVikanRivinKuuntelijat(2);
 
         JScrollPane pane = new JScrollPane(panel);
+        pane.setBorder(BorderFactory.createTitledBorder("Muut ainekset"));
         pane.setPreferredSize(new Dimension(400, 200));
         return pane;
     }
@@ -310,7 +213,7 @@ public class BrewscaleGUI implements Runnable {
         JPanel panel = new JPanel();
         panel = maltaatPanel;
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.add(new JLabel("Maltaat"));
+//        panel.add(new JLabel("Maltaat"));
 
         ArrayList<Mallas> mallasLista = brewscale.getResepti().getMaltaat();
 
@@ -331,6 +234,7 @@ public class BrewscaleGUI implements Runnable {
         lisaaVikanRivinKuuntelijat(0);
 
         JScrollPane pane = new JScrollPane(panel);
+        pane.setBorder(BorderFactory.createTitledBorder("Maltaat"));
         pane.setPreferredSize(new Dimension(400, 200));
         return pane;
     }
@@ -344,7 +248,7 @@ public class BrewscaleGUI implements Runnable {
         JPanel panel = new JPanel();
         panel = humalatPanel;
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.add(new JLabel("Humalat"));
+//        panel.add(new JLabel("Humalat"));
 
         ArrayList<Humala> humalaLista = brewscale.getResepti().getHumalat();
 
@@ -366,6 +270,7 @@ public class BrewscaleGUI implements Runnable {
         lisaaVikanRivinKuuntelijat(1);
 
         JScrollPane pane = new JScrollPane(panel);
+        pane.setBorder(BorderFactory.createTitledBorder("Humalat"));
         pane.setPreferredSize(new Dimension(450, 200));
         return pane;
     }
@@ -456,6 +361,9 @@ public class BrewscaleGUI implements Runnable {
         yksikkoListat[i].get(0).addFocusListener(vikanRivinKuuntelijat[i]);
     }
 
+    /**
+     * Lukee gui:sta uuden reseptin ja päivittää sen aktiiviseksi reseptiksi.
+     */
     private void paivitaResepti() {
         double tilavuus = 0;
         try {
@@ -473,19 +381,159 @@ public class BrewscaleGUI implements Runnable {
             for (int j = nimiListat[i].size() - 1; j > 0; j--) {
                 String nimi = nimiListat[i].get(j).getText();
                 String maara = maaraListat[i].get(j).getText();
+                if (maara.isEmpty()) {
+                    maara = "0";
+                }
                 String yksikko = yksikkoListat[i].get(j).getSelectedItem().toString();
-                if (i == 0) {
-                    resepti.lisaaMallas(nimi, maara, yksikko);
-                }
-                if (i == 1) {
-                    String alpha = alphaMaaraLista.get(j).getText();
-                    System.out.println(" alpha on " + alpha);
-                    resepti.lisaaHumala(nimi, maara, yksikko, alpha);
-                }
-                if (i == 2) {
-                    resepti.lisaaAines(nimi, maara, yksikko);
+                if (!nimi.equals("") || !maara.equals("0")) {
+                    if (i == 0) {
+                        resepti.lisaaMallas(nimi, maara, yksikko);
+                    }
+                    if (i == 1) {
+                        String alpha = alphaMaaraLista.get(j).getText();
+                        System.out.println(" alpha on " + alpha);
+                        resepti.lisaaHumala(nimi, maara, yksikko, alpha);
+                    }
+                    if (i == 2) {
+                        resepti.lisaaAines(nimi, maara, yksikko);
+                    }
                 }
             }
         }
+        resepti.setOhje(ohjeetArea.getText());
     }
+
+    private void muotoileTyhjatKentat(int k, String nimi, String maara) {
+        if (maara.isEmpty()) {
+            maara = "0";
+        }
+
+        if (nimi.isEmpty()) {
+            if (k == 0) {
+                maara = "nimetön mallas";
+            }
+            if (k == 1) {
+                maara = "nimetön humala";
+            }
+            if (k == 2) {
+                maara = "nimetön aines";
+            }
+        }
+    }
+
+    public JLabel otsikkoLabel() {
+        ImageIcon otsikkoImageIcon = null;
+        try {
+            otsikkoImageIcon = new ImageIcon(getClass().getResource("brewscale_logo.png"));
+
+        } catch (NullPointerException exc) {
+            System.out.println("Otsikkokuvaa ei löydy");
+        }
+        JLabel otsikkoLabel = new JLabel(otsikkoImageIcon, JLabel.CENTER);
+        return otsikkoLabel;
+    }
+
+    public JPanel tiedostoToiminnotPanel() {
+        JPanel tiedostoNappulat = new JPanel();
+
+        JButton uusiReseptiBtn = new JButton("Uusi resepti");
+        uusiReseptiBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                uusiReseptiPainettu();
+            }
+        });
+
+        JButton avaaReseptiBtn = new JButton("Avaa resepti");
+        avaaReseptiBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                avaaReseptiPainettu();
+            }
+        });
+
+        JButton tallennaReseptiBtn = new JButton("Tallenna resepti");
+        tallennaReseptiBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tallennaReseptiPainettu();
+            }
+        });
+
+        tiedostoNappulat.add(uusiReseptiBtn);
+        tiedostoNappulat.add(avaaReseptiBtn);
+        tiedostoNappulat.add(tallennaReseptiBtn);
+
+        return tiedostoNappulat;
+    }
+
+    private JPanel reseptiToiminnotPanel() {
+        JPanel reseptiToiminnot = new JPanel();
+
+        JButton muutaGrammoiksiBtn = new JButton("Muuta resepti grammoiksi");
+        muutaGrammoiksiBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                muutaGrammoiksiPainettu();
+            }
+        });
+
+        reseptiToiminnot.add(muutaGrammoiksiBtn);
+        reseptiToiminnot.add(konversioPanel());
+        return reseptiToiminnot;
+    }
+
+    public JPanel reseptiNimiPanel() {
+        nimiField = new JTextField(brewscale.getResepti().getNimi(), 20);
+        JPanel panel = new JPanel();
+        panel.add(new JLabel("Reseptin nimi: "));
+        panel.add(nimiField);
+        return panel;
+    }
+
+    public JPanel reseptinKokoPanel() {
+        JPanel reseptinKokoPanel = new JPanel();
+        reseptinKokoPanel.add(new JLabel("Satsin koko:"));
+        tilavuusField = new JTextField(brewscale.getResepti().getKoko() + "", 5);
+        tilavuusCombo = new JComboBox(tilavuusLista);
+        reseptinKokoPanel.add(tilavuusField);
+        reseptinKokoPanel.add(tilavuusCombo);
+
+//        reseptinKokoPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        return reseptinKokoPanel;
+    }
+
+    public JPanel konversioPanel() {
+        JPanel panel = new JPanel();
+        panel.add(new JLabel("Skaalaa resepti kokoon"));
+        uusiTilavuusField = new JTextField(" ", 5);
+        panel.add(uusiTilavuusField);
+        uusiTilavuusCombo = new JComboBox(tilavuusLista);
+        panel.add(uusiTilavuusCombo);
+        JButton skaalaaBtn = new JButton("Skaalaa!");
+        skaalaaBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                System.out.println("Skaalaa-nappia painettu");
+                skaalaaResepti();
+            }
+        });
+
+        panel.add(skaalaaBtn);
+
+//        panel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        return panel;
+    }
+
+    public JScrollPane ohjeetArea() {
+        ohjeetArea = new JTextArea(brewscale.getResepti().getOhje());
+        JScrollPane pane = new JScrollPane(ohjeetArea);
+        pane.setBorder(BorderFactory.createTitledBorder("Ohjeet"));
+        pane.setPreferredSize(new Dimension(450, 300));
+        return pane;
+    }
+
+    public JScrollPane muistiinpanotArea() {
+        muistiinpanotArea = new JTextArea(brewscale.getResepti().getMuistiinpanot());
+        JScrollPane pane = new JScrollPane(muistiinpanotArea);
+        pane.setBorder(BorderFactory.createTitledBorder("Muistiinpanoja"));
+        pane.setPreferredSize(new Dimension(450, 200));
+        return pane;
+    }
+
 }
