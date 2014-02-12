@@ -106,13 +106,7 @@ public class ReseptiTest extends TestCase {
     }
 
     public void testMuistiinpanoOnAluksiTyhja() {
-        assertEquals("", resepti.muistiinpanot());
-    }
-
-    public void testMuistiinpanonLisaysToimii() {
-        resepti.lisaaMuistiinpano("Muistiinpano 1");
-        resepti.lisaaMuistiinpano("Muistiinpano 2");
-        assertEquals("Muistiinpano 1\nMuistiinpano 2\n", resepti.muistiinpanot());
+        assertEquals("", resepti.getMuistiinpanot());
     }
 
     public void testToStringToimii() {

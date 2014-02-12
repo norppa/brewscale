@@ -159,10 +159,6 @@ public class Resepti {
         ainekset.clear();
     }
 
-    public void lisaaMuistiinpano(String mp) {
-        muistiinpanot += mp + "\n";
-    }
-
     public ArrayList<Mallas> getMaltaat() {
         return maltaat;
     }
@@ -190,13 +186,17 @@ public class Resepti {
     public String getKokoYksikko() {
         return kokoYksikko;
     }
+    
+    public void setMuistiinpanot(String muistiinpanot) {
+        this.muistiinpanot = muistiinpanot.trim();
+    }
 
     public String getMuistiinpanot() {
         return muistiinpanot;
     }
     
     public void setOhje(String ohje) {
-        this.ohje = ohje;
+        this.ohje = ohje.trim();
     }
     
     public String getOhje() {

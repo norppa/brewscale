@@ -25,6 +25,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -98,7 +99,7 @@ public class BrewscaleGUI implements Runnable {
         panel = new JPanel();
         this.getFrame().add(panel);
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-        panel.add(otsikkoLabel());
+        panel.add(otsikkoPanel());
         panel.add(toimintoPanel);
         panel.add(reseptiPanel);
         panel.setPreferredSize(new Dimension(1000, 850));
@@ -152,17 +153,24 @@ public class BrewscaleGUI implements Runnable {
     }
 
     private void tallennaReseptiPainettu() {
+        if (!tarkistaMaaraMuotoilut()) {
+            JOptionPane.showMessageDialog(frame, "Tarkista annetut ainesmäärät", "varoitus", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         paivitaResepti();
         uudistaNakyma();
         brewscale.tallenna();
     }
 
     private void skaalaaResepti() {
-        double uusiTilavuus = Double.parseDouble(uusiTilavuusField.getText());
-        String uusiYksikko = uusiTilavuusCombo.getSelectedItem().toString();
-        brewscale.skaalaa(uusiTilavuus, uusiYksikko);
-
-        uudistaNakyma();
+        try {
+            double uusiTilavuus = Double.parseDouble(uusiTilavuusField.getText());
+            String uusiYksikko = uusiTilavuusCombo.getSelectedItem().toString();
+            brewscale.skaalaa(uusiTilavuus, uusiYksikko);
+            uudistaNakyma();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(frame, "Uusi tilavuus ei kelpaa", "varoitus", JOptionPane.WARNING_MESSAGE);
+        }
     }
 
     private void muutaGrammoiksiPainettu() {
@@ -365,6 +373,7 @@ public class BrewscaleGUI implements Runnable {
      * Lukee gui:sta uuden reseptin ja päivittää sen aktiiviseksi reseptiksi.
      */
     private void paivitaResepti() {
+
         double tilavuus = 0;
         try {
             tilavuus = Double.parseDouble(tilavuusField.getText());
@@ -381,17 +390,13 @@ public class BrewscaleGUI implements Runnable {
             for (int j = nimiListat[i].size() - 1; j > 0; j--) {
                 String nimi = nimiListat[i].get(j).getText();
                 String maara = maaraListat[i].get(j).getText();
-                if (maara.isEmpty()) {
-                    maara = "0";
-                }
                 String yksikko = yksikkoListat[i].get(j).getSelectedItem().toString();
-                if (!nimi.equals("") || !maara.equals("0")) {
+                if (!maara.isEmpty()) {
                     if (i == 0) {
                         resepti.lisaaMallas(nimi, maara, yksikko);
                     }
                     if (i == 1) {
                         String alpha = alphaMaaraLista.get(j).getText();
-                        System.out.println(" alpha on " + alpha);
                         resepti.lisaaHumala(nimi, maara, yksikko, alpha);
                     }
                     if (i == 2) {
@@ -401,27 +406,33 @@ public class BrewscaleGUI implements Runnable {
             }
         }
         resepti.setOhje(ohjeetArea.getText());
+        resepti.setMuistiinpanot(muistiinpanotArea.getText());
     }
 
-    private void muotoileTyhjatKentat(int k, String nimi, String maara) {
-        if (maara.isEmpty()) {
-            maara = "0";
+    /**
+     * Tarkistaa, että annetut raaka-ainemäärät sekä alphahappopitoisuudet ovat
+     * muutettavissa double-muotoisiksi
+     *
+     * @return
+     */
+    private boolean tarkistaMaaraMuotoilut() {
+        try {
+            for (int i = 0; i < 3; i++) {
+                for (int j = maaraListat[i].size() - 1; j > 0; j--) {
+                    Double.parseDouble(maaraListat[i].get(j).getText());
+                    if (i == 1) {
+                        Double.parseDouble(alphaMaaraLista.get(j).getText());
+                    }
+                }
+            }
+        } catch (NumberFormatException e) {
+            return false;
         }
-
-        if (nimi.isEmpty()) {
-            if (k == 0) {
-                maara = "nimetön mallas";
-            }
-            if (k == 1) {
-                maara = "nimetön humala";
-            }
-            if (k == 2) {
-                maara = "nimetön aines";
-            }
-        }
+        return true;
     }
 
-    public JLabel otsikkoLabel() {
+    public JPanel otsikkoPanel() {
+        JPanel otsikko = new JPanel();
         ImageIcon otsikkoImageIcon = null;
         try {
             otsikkoImageIcon = new ImageIcon(getClass().getResource("brewscale_logo.png"));
@@ -430,7 +441,8 @@ public class BrewscaleGUI implements Runnable {
             System.out.println("Otsikkokuvaa ei löydy");
         }
         JLabel otsikkoLabel = new JLabel(otsikkoImageIcon, JLabel.CENTER);
-        return otsikkoLabel;
+        otsikko.add(otsikkoLabel);
+        return otsikko;
     }
 
     public JPanel tiedostoToiminnotPanel() {
@@ -509,7 +521,6 @@ public class BrewscaleGUI implements Runnable {
         JButton skaalaaBtn = new JButton("Skaalaa!");
         skaalaaBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                System.out.println("Skaalaa-nappia painettu");
                 skaalaaResepti();
             }
         });
