@@ -7,6 +7,7 @@ package brewscale.gui;
 
 import brewscale.brewscale.Brewscale;
 import brewscale.resepti.*;
+import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -58,14 +59,7 @@ public class BrewscaleGUI implements Runnable {
 
     private void initGUI(Container c) {
 
-        ImageIcon otsikko = null;
-        try {
-            otsikko = new ImageIcon(getClass().getResource("brewscale_logo.png"));
-
-        } catch (NullPointerException exc) {
-            System.out.println("Otsikkokuvaa ei löydy");
-        }
-        JLabel otsikkoLabel = new JLabel(otsikko);
+        JLabel otsikkoLabel = otsikko();
 
         JPanel nappulat = new JPanel();
 
@@ -113,52 +107,86 @@ public class BrewscaleGUI implements Runnable {
         JLabel uusiReseptiLabel = new JLabel("uusi resepti");
         uusiResepti.add(uusiReseptiLabel);
 
-        panel = new JPanel(new GridBagLayout());
+        JPanel reseptiPanel = new JPanel();
+        reseptiPanel.setLayout(new BoxLayout(reseptiPanel, BoxLayout.PAGE_AXIS));
+        
+        reseptiPanel.add(kokoPanel);
+        reseptiPanel.add(maltaat);
+        reseptiPanel.add(humalat);
+        reseptiPanel.add(muutAinekset);
+        
+        
+        JPanel toimintoPanel = new JPanel();
+        toimintoPanel.setLayout(new BoxLayout(toimintoPanel, BoxLayout.PAGE_AXIS));
+
+        toimintoPanel.add(nappulat);
+        toimintoPanel.add(muutaGrammoiksiBtn);
+        toimintoPanel.add(konversioPanel);
+        
+        panel = new JPanel();
         this.getFrame().add(panel);
-        GridBagConstraints gbc = new GridBagConstraints();
+        panel.add(otsikkoLabel, BorderLayout.PAGE_START);
+        panel.add(reseptiPanel, BorderLayout.LINE_START);
+        panel.add(toimintoPanel, BorderLayout.LINE_END);
+        panel.setPreferredSize(new Dimension(1000,850));
 
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
-        panel.add(otsikkoLabel, gbc);
-
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        gbc.gridwidth = 2;
-        panel.add(nappulat, gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        panel.add(kokoPanel, gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        panel.add(maltaat, gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        panel.add(humalat, gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 5;
-        panel.add(muutAinekset, gbc);
-
-        gbc.gridx = 1;
-        gbc.gridy = 2;
-        panel.add(konversioPanel, gbc);
-
-        gbc.gridx = 2;
-        gbc.gridy = 2;
-        panel.add(muutaGrammoiksiBtn, gbc);
-
-        gbc.gridx = 1;
-        gbc.gridy = 3;
-        panel.add(uusiResepti, gbc);
-
+//        panel = new JPanel(new GridBagLayout());
+//        this.getFrame().add(panel);
+//        GridBagConstraints gbc = new GridBagConstraints();
+//
+//        gbc.gridx = 1;
+//        gbc.gridy = 0;
+//        gbc.gridwidth = 2;
+//        panel.add(otsikkoLabel, gbc);
+//
+//        gbc.gridx = 1;
+//        gbc.gridy = 1;
+//        gbc.gridwidth = 2;
+//        panel.add(nappulat, gbc);
+//
+//        gbc.gridx = 0;
+//        gbc.gridy = 2;
+//        panel.add(kokoPanel, gbc);
+//
+//        gbc.gridx = 0;
+//        gbc.gridy = 3;
+//        panel.add(maltaat, gbc);
+//
+//        gbc.gridx = 0;
+//        gbc.gridy = 4;
+//        panel.add(humalat, gbc);
+//
+//        gbc.gridx = 0;
+//        gbc.gridy = 5;
+//        panel.add(muutAinekset, gbc);
+//
+//        gbc.gridx = 1;
+//        gbc.gridy = 2;
+//        panel.add(konversioPanel, gbc);
+//
+//        gbc.gridx = 2;
+//        gbc.gridy = 2;
+//        panel.add(muutaGrammoiksiBtn, gbc);
+//
+//        gbc.gridx = 1;
+//        gbc.gridy = 3;
+//        panel.add(uusiResepti, gbc);
     }
 
     public JFrame getFrame() {
         return frame;
+    }
+
+    private JLabel otsikko() {
+        ImageIcon otsikkoImageIcon = null;
+        try {
+            otsikkoImageIcon = new ImageIcon(getClass().getResource("brewscale_logo.png"));
+
+        } catch (NullPointerException exc) {
+            System.out.println("Otsikkokuvaa ei löydy");
+        }
+        JLabel otsikkoLabel = new JLabel(otsikkoImageIcon);
+        return otsikkoLabel;
     }
 
     private void alustaMuuttujat() {
@@ -267,7 +295,7 @@ public class BrewscaleGUI implements Runnable {
         }
 
         lisaaVikanRivinKuuntelijat(2);
-        
+
         JScrollPane pane = new JScrollPane(panel);
         pane.setPreferredSize(new Dimension(400, 200));
         return pane;
