@@ -6,6 +6,7 @@ Käyttäjät: Kotiolutintoilijat
 Toiminnot:
 Reseptin lisääminen
 Reseptin skaalaaminen
+Reseptin kaikkien yksiköiden muutto grammoiksi
 Reseptin tallettaminen
 Reseptin lataaminen
 
