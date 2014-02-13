@@ -435,7 +435,7 @@ public class BrewscaleGUI implements Runnable {
         JPanel otsikko = new JPanel();
         ImageIcon otsikkoImageIcon = null;
         try {
-            otsikkoImageIcon = new ImageIcon(getClass().getResource("brewscale_logo.png"));
+            otsikkoImageIcon = new ImageIcon(getClass().getResource("../../brewscale_logo.png"));
 
         } catch (NullPointerException exc) {
             System.out.println("Otsikkokuvaa ei löydy");
