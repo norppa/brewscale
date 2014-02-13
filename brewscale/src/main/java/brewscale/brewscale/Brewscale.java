@@ -11,7 +11,7 @@ import java.io.IOException;
 
 /**
  *
- * @author jtthaavi@cs
+ * @author Jari Haavisto
  */
 public class Brewscale {
 
@@ -140,12 +140,12 @@ public class Brewscale {
         return -1;
     }
 
+    /**
+     * Muotoilee reseptistä tekstimuotoisen esityksen, joka sisältää kaikki reseptin tiedot
+     * 
+     * @return Reseptin tekstimuotoinen esitys
+     */
     public String reseptiTeksti() {
-//        String reseptiTeksti = ""
-//                + "Nimi: " + resepti.getNimi() + "\n"
-//                + "Koko: " + resepti.getKoko() + "\n"
-//                + "Yksikkö: " + resepti.getKokoYksikko() + "\n"
-//                + "\nMaltaat:\n";
         String reseptiTeksti = resepti.getNimi() + " (" + resepti.getKoko() + " " + resepti.getKokoYksikko() + ")\n\nMaltaat:\n";
         for (Mallas m : resepti.getMaltaat()) {
             reseptiTeksti += m.getMaara() + " " + m.getYksikko() + " " + m.getNimi() + "\n";

@@ -63,6 +63,11 @@ public class BrewscaleGUI implements Runnable {
         frame.setVisible(true);
     }
 
+    /**
+     * Muotoilee perusnäkymän.
+     * 
+     * @param c 
+     */
     private void initGUI(Container c) {
 
         JPanel toimintoPanel = new JPanel();
@@ -110,6 +115,9 @@ public class BrewscaleGUI implements Runnable {
         return frame;
     }
 
+    /**
+     * Tyhjentää kaikki oliomuuttujat.
+     */
     private void alustaMuuttujat() {
         nimiListat = new ArrayList[3];
         maaraListat = new ArrayList[3];
@@ -122,6 +130,9 @@ public class BrewscaleGUI implements Runnable {
         konversioPanel = new JPanel();
     }
 
+    /**
+     * Päivittää näkymän muutosten jälkeen.
+     */
     private void uudistaNakyma() {
         alustaMuuttujat();
         frame.remove(panel);
@@ -435,7 +446,7 @@ public class BrewscaleGUI implements Runnable {
         JPanel otsikko = new JPanel();
         ImageIcon otsikkoImageIcon = null;
         try {
-            otsikkoImageIcon = new ImageIcon(getClass().getResource("../../brewscale_logo.png"));
+            otsikkoImageIcon = new ImageIcon("kuvat/brewscale_logo.png");
 
         } catch (NullPointerException exc) {
             System.out.println("Otsikkokuvaa ei löydy");

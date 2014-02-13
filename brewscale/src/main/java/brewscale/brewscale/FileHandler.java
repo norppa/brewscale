@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author riha
+ * @author Jari Haavisto
  */
 public class FileHandler {
 
@@ -26,12 +26,17 @@ public class FileHandler {
         hakemisto = "./reseptit/";
     }
 
+    /**
+     * Tallentaa tiedostoon annetun tekstin. Jos tiedosto on jo olemassa, se korvataan.
+     * 
+     * @param nimi Tiedosto, johon teksti tallennetaan
+     * @param teksti Tallennettava teksti
+     */
     public void tallennaResepti(String nimi, String teksti) {
         try {
             File tiedosto = new File(hakemisto + nimi);
             tiedosto.createNewFile();
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(tiedosto))) {
-//                System.out.println(muotoileReseptiTiedosto(resepti));
                 writer.write(teksti);
             }
 
@@ -39,12 +44,24 @@ public class FileHandler {
         }
     }
     
+    /**
+     * Lukee tekstimuotoisena annetun tekstitiedoston ja palauttaa Resepti-olion.
+     * 
+     * @param nimi Tiedoston nimi 
+     * @return Resepti-olio
+     */
     public Resepti lueResepti(String nimi) {
         File tiedosto = new File(hakemisto + nimi);
         return lueResepti(tiedosto);
     }
    
 
+    /**
+     * Lukee parametrinä saadun tiedoston ja palauttaa sen pohjalta rakennetun Resepti-olion.
+     * 
+     * @param tiedosto Tiedoston nimi
+     * @return Resepti-olio
+     */
     public Resepti lueResepti(File tiedosto) {
         Resepti resepti = null;
         
@@ -110,6 +127,12 @@ public class FileHandler {
 
     }
 
+    /**
+     * Erottelee tiedoston otsikkorivistä reseptin nimen, koon ja yksikön.
+     * 
+     * @param rivi Kolmiarvoinen String array, jossa nimi, koko ja yksikkö.
+     * @return 
+     */
     private String[] erotteleOtsikko(String rivi) {
         String[] osat = new String[3];  // nimi, koko, yksikko
         rivi = rivi.trim();
@@ -137,6 +160,12 @@ public class FileHandler {
         return osat;
     }
 
+    /**
+     * Erottelee tiedoston rivistä aineksen määrän, yksikön ja muut tiedot
+     * 
+     * @param rivi Kolmiarvoinen String array, jossa määrä, yksikkö ja muut tiedot
+     * @return 
+     */
     private String[] erotteleRivi(String rivi) {
         String[] osat = new String[3]; // määrä, yksikkö, nimi
         int n = 0;

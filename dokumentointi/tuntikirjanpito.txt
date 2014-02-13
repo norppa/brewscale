@@ -15,3 +15,4 @@ Ensimmäinen deadline:
 6.2. 4h Sekvenssikaaviot, gui, testejä, refaktorointia
 12.2. 4h Toimiva versio gui:stam, tiedostodialogi, bugikorjauksia
 12.2. 2h Muotoilutarkistuksia, virhetilanteiden hallintaa
+13.2. 1,5h Testejä, JavaDocia ja bugikorjauksia
