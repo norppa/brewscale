@@ -17,3 +17,5 @@ Ensimmäinen deadline:
 12.2. 2h Muotoilutarkistuksia, virhetilanteiden hallintaa
 13.2. 1,5h Testejä, JavaDocia ja bugikorjauksia
 13.2. 2h Refaktorointia
+16.2. 4,5h Refaktorointia
+17.2. 3h Bugikorjauksia, JavaDoc, refaktorointia
