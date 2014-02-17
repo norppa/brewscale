@@ -10,7 +10,8 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- *
+ *Brewscale on ohjelman toiminnallisuuden pääluokka,
+ * 
  * @author Jari Haavisto
  */
 public class Brewscale {

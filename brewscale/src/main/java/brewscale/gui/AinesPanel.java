@@ -25,8 +25,20 @@ import javax.swing.JTextField;
  */
 public abstract class AinesPanel extends JScrollPane {
 
+    /**
+     * Komponentit-luokan instanssi, joka sisältää kaikki käyttöliittymän
+     * elementit, joihin käyttäjä voi antaa syötettä.
+     *
+     * @see brewscale.gui.Komponentit
+     */
     public Komponentit k;
+    /**
+     * Numero, joka identifioi minkätyyppisestä raaka-aineesta on kysymys.
+     */
     public int ainesNro;
+    /**
+     * JPanel-elementti jonka sisään luokan elementit kasataan.
+     */
     public JPanel panel;
 
     public AinesPanel(Komponentit k, int ainesNro) {
@@ -123,9 +135,9 @@ public abstract class AinesPanel extends JScrollPane {
 
     /**
      * Apumetodi muotoilee doublesta kaksidesimaalisen String-esityksen
-     * 
+     *
      * @param dbl Numero, joka muotoillaan
-     * @return  String-muotoinen esitys numerosta
+     * @return String-muotoinen esitys numerosta
      */
     public String muotoileNumero(double dbl) {
         DecimalFormat decimalFormat = new DecimalFormat("###.##");

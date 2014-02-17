@@ -15,11 +15,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
+ * FileHandler hoitaa kaiken tiedostojen lukemiseen ja kirjoittamiseen liittyvän.
  *
  * @author Jari Haavisto
  */
 public class FileHandler {
 
+    /**
+     * Reseptihakemiston (työhakemiston) suhteellinen osoite
+     */
     private String hakemisto;
 
     public FileHandler() {

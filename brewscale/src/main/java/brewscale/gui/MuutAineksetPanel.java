@@ -9,8 +9,10 @@ import brewscale.resepti.MuuAines;
 import java.util.ArrayList;
 
 /**
+ * MuutAineksetPanelö on JScrollPane-elementti joka pitää sisällään listan
+ * reseptin aineksista, jotka eivät ole maltaita tai humalia.
  *
- * @author riha
+ * @author Jari Haavisto
  */
 public class MuutAineksetPanel extends AinesPanel {
 
@@ -21,6 +23,10 @@ public class MuutAineksetPanel extends AinesPanel {
         viimeistele("Muut ainekset");
     }
 
+    /**
+     * Mikäli reseptissä on muita aineita, metodi luo jokaiselle oman rivinsä ja
+     * mikäli muita aineita ei ole, luodaan kolme tyhjää riviä.
+     */
     @Override
     public void luoKentat() {
         ArrayList<MuuAines> ainesLista = k.resepti.getMuutAinekset();

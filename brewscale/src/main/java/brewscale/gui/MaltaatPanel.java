@@ -9,8 +9,10 @@ import brewscale.resepti.Mallas;
 import java.util.ArrayList;
 
 /**
+ * MaltaatPanel on JScrollPane-elementti joka pitää sisällään listan reseptin
+ * maltaista.
  *
- * @author riha
+ * @author Jari Haavisto
  */
 public class MaltaatPanel extends AinesPanel {
 
@@ -21,6 +23,10 @@ public class MaltaatPanel extends AinesPanel {
         viimeistele("Maltaat");
     }
 
+    /**
+     * Mikäli reseptissä on maltaita, metodi luo jokaiselle oman rivinsä ja
+     * mikäli maltaita ei ole, luodaan kolme tyhjää riviä.
+     */
     @Override
     public void luoKentat() {
         ArrayList<Mallas> mallasLista = k.resepti.getMaltaat();
@@ -38,7 +44,5 @@ public class MaltaatPanel extends AinesPanel {
             panel.add(luoUusiRivi());
         }
     }
-    
-
 
 }

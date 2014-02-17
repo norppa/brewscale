@@ -28,8 +28,8 @@ public class HumalatPanel extends AinesPanel {
     }
 
     /**
-     * Mikäli reseptissä on humalia, luodaan jokaiselle humalalle oma rivinsä ja mikäli humalia ei ole
-     * luodaan kolme tyhjää riviä.
+     * Mikäli reseptissä on humalia, metodi luo jokaiselle oman rivinsä ja
+     * mikäli humalia ei ole, luodaan kolme tyhjää riviä.
      */
     @Override
     public void luoKentat() {
