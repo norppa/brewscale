@@ -19,7 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 public class BrewscaleGUI implements Runnable {
-    
+
     private Komponentit k;
     private JFrame frame;
     private Brewscale brewscale;
@@ -45,7 +45,7 @@ public class BrewscaleGUI implements Runnable {
      * @param c
      */
     private void initGUI(Container c) {
-        
+
         k = new Komponentit(brewscale.getResepti());
 
         JPanel toimintoPanel = new JPanel();
@@ -55,7 +55,7 @@ public class BrewscaleGUI implements Runnable {
         toimintoPanel.add(new ReseptiToiminnotPanel(k));
 
         lisaaActionListenerNappuloihin();
-        
+
         JPanel reseptiPanel = new JPanel();
         reseptiPanel.setLayout(new BoxLayout(reseptiPanel, BoxLayout.LINE_AXIS));
         JPanel reseptiAineksetPanel = new JPanel();
@@ -64,7 +64,7 @@ public class BrewscaleGUI implements Runnable {
         reseptiMuutPanel.setLayout(new BoxLayout(reseptiMuutPanel, BoxLayout.PAGE_AXIS));
         reseptiPanel.add(reseptiAineksetPanel);
         reseptiPanel.add(reseptiMuutPanel);
-        
+
         reseptiMuutPanel.add(new ReseptinPerustiedotPanel(k));
         reseptiMuutPanel.add(new OhjeetPanel(k));
         reseptiMuutPanel.add(new MuistiinpanotPanel(k));
@@ -182,7 +182,6 @@ public class BrewscaleGUI implements Runnable {
         uudistaNakyma();
     }
 
-
     /**
      * Lukee gui:sta uuden reseptin ja päivittää sen aktiiviseksi reseptiksi.
      */
@@ -234,7 +233,10 @@ public class BrewscaleGUI implements Runnable {
         try {
             for (int i = 0; i < 3; i++) {
                 for (int j = k.maaraListat[i].size() - 1; j > 0; j--) {
-                    Double.parseDouble(k.maaraListat[i].get(j).getText());
+                    String numero = k.maaraListat[i].get(j).getText();
+                    if (!numero.equals("")) {
+                        Double.parseDouble(numero);
+                    }
                     if (i == 1) {
                         Double.parseDouble(k.alphaMaaraLista.get(j).getText());
                     }

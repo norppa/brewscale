@@ -19,3 +19,4 @@ Ensimmäinen deadline:
 13.2. 2h Refaktorointia
 16.2. 4,5h Refaktorointia
 17.2. 3h Bugikorjauksia, JavaDoc, refaktorointia
+17.2. 1h Bugikorjauksia

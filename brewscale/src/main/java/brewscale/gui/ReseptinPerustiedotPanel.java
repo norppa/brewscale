@@ -32,6 +32,7 @@ public class ReseptinPerustiedotPanel extends JPanel {
         k.tilavuusCombo.removeAllItems();
         k.tilavuusCombo.addItem("l");
         k.tilavuusCombo.addItem("gal");
+        k.tilavuusCombo.setSelectedItem(k.resepti.getKokoYksikko());
         kokoPanel.add(k.tilavuusField);
         kokoPanel.add(k.tilavuusCombo);
         

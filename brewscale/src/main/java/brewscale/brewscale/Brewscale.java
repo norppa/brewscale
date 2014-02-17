@@ -10,8 +10,8 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- *Brewscale on ohjelman toiminnallisuuden pääluokka,
- * 
+ * Brewscale on ohjelman toiminnallisuuden pääluokka,
+ *
  * @author Jari Haavisto
  */
 public class Brewscale {
@@ -65,26 +65,31 @@ public class Brewscale {
      *
      * @param kerroin Annettu kerroin
      */
-    public void skaalaa(double kerroin) {
-        if (kerroin < 0) {
-            return;
-        }
-
-        resepti.setKoko(resepti.getKoko() * kerroin);
-        for (Aines a : resepti.getAinekset()) {
-            a.setMaara(a.getMaara() * kerroin);
-        }
-    }
+//    public void skaalaa(double kerroin) {
+//        if (kerroin < 0) {
+//            return;
+//        }
+//
+//        resepti.setKoko(resepti.getKoko() * kerroin);
+//        for (Aines a : resepti.getAinekset()) {
+//            a.setMaara(a.getMaara() * kerroin);
+//        }
+//    }
 
     /**
-     * Metodi skaalaa aktiivisen reseptin kaikki raaka-aineet annettuun lopputilavuuteen
+     * Metodi skaalaa aktiivisen reseptin kaikki raaka-aineet annettuun
+     * lopputilavuuteen
      *
      * @param loppuTilavuus haluttu lopputilavuus
      * @param loppuYksikko yksikkö, jolla lopputilavuus on annettu
      */
     public void skaalaa(double loppuTilavuus, String loppuYksikko) {
         double kerroin = loppuTilavuus / resepti.getKoko() / yksikkoMuuntoKerroin(resepti.getKokoYksikko(), loppuYksikko);
-        skaalaa(kerroin);
+        resepti.setKoko(loppuTilavuus);
+        resepti.setKokoYksikko(loppuYksikko);
+        for (Aines a : resepti.getAinekset()) {
+            a.setMaara(a.getMaara() * kerroin);
+        }
     }
 
     /**
@@ -142,8 +147,9 @@ public class Brewscale {
     }
 
     /**
-     * Muotoilee reseptistä tekstimuotoisen esityksen, joka sisältää kaikki reseptin tiedot
-     * 
+     * Muotoilee reseptistä tekstimuotoisen esityksen, joka sisältää kaikki
+     * reseptin tiedot
+     *
      * @return Reseptin tekstimuotoinen esitys
      */
     public String reseptiTeksti() {
@@ -156,7 +162,7 @@ public class Brewscale {
             reseptiTeksti += h.getMaara() + " " + h.getYksikko() + " " + h.getNimi() + " (" + h.getAlphaAcid() + "%AA)\n";
         }
         reseptiTeksti += "\nMuut ainekset:\n";
-       for (MuuAines a : resepti.getMuutAinekset()) {
+        for (MuuAines a : resepti.getMuutAinekset()) {
             reseptiTeksti += a.getMaara() + " " + a.getYksikko() + " " + a.getNimi() + "\n";
         }
         reseptiTeksti += "\nOhjeet:\n" + resepti.getOhje();
