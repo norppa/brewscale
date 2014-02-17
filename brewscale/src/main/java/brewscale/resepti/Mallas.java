@@ -10,14 +10,14 @@ package brewscale.resepti;
  *
  * @author jtthaavi@cs
  */
-public class Mallas extends Aines implements RaakaAine{
+public class Mallas extends Aines {
     
-    public Mallas(String nimi, double maara, String yksikko) {
+        public Mallas(String nimi, double maara, String yksikko) {
         super(nimi, maara, yksikko);
     }
-    
+
     public Mallas(String nimi, double maara) {
-        this(nimi, maara, "g");
+        super(nimi, maara, "g");
     }
-    
+
 }

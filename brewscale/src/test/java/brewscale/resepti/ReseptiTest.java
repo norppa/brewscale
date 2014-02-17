@@ -7,7 +7,7 @@ package brewscale.resepti;
 
 import brewscale.resepti.Mallas;
 import brewscale.resepti.Humala;
-import brewscale.resepti.Aines;
+import brewscale.resepti.MuuAines;
 import brewscale.resepti.Resepti;
 import junit.framework.TestCase;
 
@@ -129,15 +129,15 @@ public class ReseptiTest extends TestCase {
     }
 
     public void testAineksenLisaysToimiiOliolla() {
-        Aines a = new Aines("Aines", 5.0);
-        resepti.lisaaAines(a);
+        MuuAines a = new MuuAines("Aines", 5.0);
+        resepti.lisaaMuuAines(a);
         assertTrue(resepti.getMuutAinekset().contains(a));
     }
 
     public void testAineksenLisaysToimiiTekstilla() {
-        resepti.lisaaAines("Testiaines", "200", "g");
+        resepti.lisaaMuuAines("Testiaines", "200", "g");
         boolean ainesLoytyy = false;
-        for (Aines a : resepti.getAinekset()) {
+        for (MuuAines a : resepti.getMuutAinekset()) {
             if (a.getNimi().equals("Testiaines")) {
                 ainesLoytyy = true;
                 break;

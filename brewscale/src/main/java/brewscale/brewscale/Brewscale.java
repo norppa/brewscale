@@ -155,7 +155,7 @@ public class Brewscale {
             reseptiTeksti += h.getMaara() + " " + h.getYksikko() + " " + h.getNimi() + " (" + h.getAlphaAcid() + "%AA)\n";
         }
         reseptiTeksti += "\nMuut ainekset:\n";
-        for (Aines a : resepti.getMuutAinekset()) {
+       for (MuuAines a : resepti.getMuutAinekset()) {
             reseptiTeksti += a.getMaara() + " " + a.getYksikko() + " " + a.getNimi() + "\n";
         }
         reseptiTeksti += "\nOhjeet:\n" + resepti.getOhje();

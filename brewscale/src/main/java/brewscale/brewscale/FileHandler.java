@@ -27,8 +27,9 @@ public class FileHandler {
     }
 
     /**
-     * Tallentaa tiedostoon annetun tekstin. Jos tiedosto on jo olemassa, se korvataan.
-     * 
+     * Tallentaa tiedostoon annetun tekstin. Jos tiedosto on jo olemassa, se
+     * korvataan.
+     *
      * @param nimi Tiedosto, johon teksti tallennetaan
      * @param teksti Tallennettava teksti
      */
@@ -43,28 +44,29 @@ public class FileHandler {
         } catch (IOException e) {
         }
     }
-    
+
     /**
-     * Lukee tekstimuotoisena annetun tekstitiedoston ja palauttaa Resepti-olion.
-     * 
-     * @param nimi Tiedoston nimi 
+     * Lukee tekstimuotoisena annetun tekstitiedoston ja palauttaa
+     * Resepti-olion.
+     *
+     * @param nimi Tiedoston nimi
      * @return Resepti-olio
      */
     public Resepti lueResepti(String nimi) {
         File tiedosto = new File(hakemisto + nimi);
         return lueResepti(tiedosto);
     }
-   
 
     /**
-     * Lukee parametrinä saadun tiedoston ja palauttaa sen pohjalta rakennetun Resepti-olion.
-     * 
+     * Lukee parametrinä saadun tiedoston ja palauttaa sen pohjalta rakennetun
+     * Resepti-olion.
+     *
      * @param tiedosto Tiedoston nimi
      * @return Resepti-olio
      */
     public Resepti lueResepti(File tiedosto) {
         Resepti resepti = null;
-        
+
         try {
             BufferedReader reader = new BufferedReader(new FileReader(tiedosto));
             String rivi = reader.readLine();
@@ -87,7 +89,7 @@ public class FileHandler {
 
             while (!rivi.equals("")) {
                 String[] osat = erotteleRivi(rivi);
-                int n = osat[2].length()-1;
+                int n = osat[2].length() - 1;
                 int p = 0;
                 while (osat[2].charAt(n) != '(') {
                     if (osat[2].charAt(n) == '%') {
@@ -95,28 +97,37 @@ public class FileHandler {
                     }
                     n--;
                 }
-                String humalaNimi = osat[2].substring(0,n);
-                double humalaAlphaAcid = Double.parseDouble(osat[2].substring(n+1,p));
+                String humalaNimi = osat[2].substring(0, n);
+                double humalaAlphaAcid = Double.parseDouble(osat[2].substring(n + 1, p));
                 resepti.lisaaHumala(new Humala(humalaNimi, Double.parseDouble(osat[0]), osat[1], humalaAlphaAcid));
                 rivi = reader.readLine();
             }
-            
+
             reader.readLine();
             rivi = reader.readLine();
-            while(!rivi.equals("")) {
+            while (!rivi.equals("")) {
                 String[] osat = erotteleRivi(rivi);
-                resepti.lisaaAines(new Aines(osat[2], Double.parseDouble(osat[0]), osat[1]));
+                resepti.lisaaMuuAines(new MuuAines(osat[2], Double.parseDouble(osat[0]), osat[1]));
                 rivi = reader.readLine();
             }
-            
+
             reader.readLine();
             String ohjeet = "";
             rivi = reader.readLine();
             while (!rivi.equals("")) {
-                ohjeet += rivi;
+                ohjeet += rivi + "\n";
                 rivi = reader.readLine();
             }
             resepti.setOhje(ohjeet);
+
+            reader.readLine();
+            String muistiinpanot = "";
+            rivi = reader.readLine();
+            while (rivi != null) {
+                muistiinpanot += rivi + "\n";
+                rivi = reader.readLine();
+            }
+            resepti.setMuistiinpanot(muistiinpanot);
 
             reader.close();
         } catch (IOException e) {
@@ -129,9 +140,9 @@ public class FileHandler {
 
     /**
      * Erottelee tiedoston otsikkorivistä reseptin nimen, koon ja yksikön.
-     * 
+     *
      * @param rivi Kolmiarvoinen String array, jossa nimi, koko ja yksikkö.
-     * @return 
+     * @return
      */
     private String[] erotteleOtsikko(String rivi) {
         String[] osat = new String[3];  // nimi, koko, yksikko
@@ -162,9 +173,10 @@ public class FileHandler {
 
     /**
      * Erottelee tiedoston rivistä aineksen määrän, yksikön ja muut tiedot
-     * 
-     * @param rivi Kolmiarvoinen String array, jossa määrä, yksikkö ja muut tiedot
-     * @return 
+     *
+     * @param rivi Kolmiarvoinen String array, jossa määrä, yksikkö ja muut
+     * tiedot
+     * @return
      */
     private String[] erotteleRivi(String rivi) {
         String[] osat = new String[3]; // määrä, yksikkö, nimi

@@ -3,17 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package brewscale.resepti;
 
 /**
  *
  * @author jtthaavi@cs
  */
-public interface RaakaAine {
-    
-    String getNimi();
-    double getMaara();
-    String getYksikko();
-    
+public class MuuAines extends Aines {
+
+    public MuuAines(String nimi, double maara, String yksikko) {
+        super(nimi, maara, yksikko);
+    }
+
+    public MuuAines(String nimi, double maara) {
+        super(nimi, maara, "g");
+    }
 }

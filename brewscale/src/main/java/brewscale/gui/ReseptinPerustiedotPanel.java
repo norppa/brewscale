@@ -12,28 +12,28 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-/**
+/**ReseptinPerustiedotPanel on JPanel-elementti, joka pitää sisällään reseptin nimen ja koon.
  *
- * @author jtthaavi@cs
+ * @author Jari Haavisto
  */
 public class ReseptinPerustiedotPanel extends JPanel {
 
-    public ReseptinPerustiedotPanel(Resepti resepti, JTextField nimiField, JTextField tilavuusField, JComboBox tilavuusCombo) {
+    public ReseptinPerustiedotPanel(Komponentit k) {
         JPanel nimiPanel = new JPanel();
-        nimiField.setText(resepti.getNimi());
-        nimiField.setColumns(20);
+        k.nimiField.setText(k.resepti.getNimi());
+        k.nimiField.setColumns(20);
         nimiPanel.add(new JLabel("Reseptin nimi: "));
-        nimiPanel.add(nimiField);
+        nimiPanel.add(k.nimiField);
 
         JPanel kokoPanel = new JPanel();
         kokoPanel.add(new JLabel("Satsin koko:"));
-        tilavuusField.setText(resepti.getKoko() + "");
-        tilavuusField.setColumns(5);
-        tilavuusCombo.removeAllItems();
-        tilavuusCombo.addItem("l");
-        tilavuusCombo.addItem("gal");
-        kokoPanel.add(tilavuusField);
-        kokoPanel.add(tilavuusCombo);
+        k.tilavuusField.setText(k.resepti.getKoko() + "");
+        k.tilavuusField.setColumns(5);
+        k.tilavuusCombo.removeAllItems();
+        k.tilavuusCombo.addItem("l");
+        k.tilavuusCombo.addItem("gal");
+        kokoPanel.add(k.tilavuusField);
+        kokoPanel.add(k.tilavuusCombo);
         
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         this.add(nimiPanel);

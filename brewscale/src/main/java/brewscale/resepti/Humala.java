@@ -10,7 +10,7 @@ package brewscale.resepti;
  *
  * @author jtthaavi@cs
  */
-public class Humala extends Aines implements RaakaAine{
+public class Humala extends Aines {
     
     private double alphaAcid;
     

@@ -40,7 +40,7 @@ public class AinesTest {
     
     @Test
     public void ainesToimiiNegatiivisillaMaarilla() {
-        Aines aines = new Aines("Aines 1", -10, "g");
+        MuuAines aines = new MuuAines("Aines 1", -10, "g");
         assertEquals(0.0, aines.getMaara(), 0.001);
     }
 

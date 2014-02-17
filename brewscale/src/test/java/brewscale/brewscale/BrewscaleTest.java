@@ -53,7 +53,7 @@ public class BrewscaleTest extends TestCase {
     public void testSkaalainToimiiAineksille() {
         lisaaAineita("g");
         brewscale.skaalaa(1.5);
-        for (Aines a : brewscale.getResepti().getAinekset()) {
+        for (MuuAines a : brewscale.getResepti().getMuutAinekset()) {
             assertEquals(15, a.getMaara(), 0.001);
         }
     }
@@ -61,7 +61,7 @@ public class BrewscaleTest extends TestCase {
     public void testSkaalainToimiiAineksilleNollalla() {
         lisaaAineita("g");
         brewscale.skaalaa(0);
-        for (Aines a: brewscale.getResepti().getAinekset()) {
+        for (MuuAines a: brewscale.getResepti().getMuutAinekset()) {
             assertEquals(0, a.getMaara(), 0.001);
         }
     }
@@ -79,7 +79,7 @@ public class BrewscaleTest extends TestCase {
     private void lisaaAineita(String yksikko) {
         resepti.lisaaMallas(new Mallas("Mallas 1", 10, yksikko));
         resepti.lisaaHumala(new Humala("Humala 1", 10, yksikko, 5.0));
-        resepti.lisaaAines(new Aines("Aines 1", 10, yksikko));
+        resepti.lisaaMuuAines(new MuuAines("Aines 1", 10, yksikko));
     }
 
     public void testMuutaGrammoiksiToimiiGrammoilla() {

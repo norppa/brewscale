@@ -2,7 +2,7 @@ package brewscale.brewscale;
 
 import brewscale.gui.BrewscaleGUI;
 import brewscale.resepti.Mallas;
-import brewscale.resepti.Aines;
+import brewscale.resepti.MuuAines;
 import brewscale.resepti.Humala;
 import brewscale.resepti.Resepti;
 

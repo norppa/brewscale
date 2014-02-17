@@ -11,61 +11,26 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-/**
+/**ReseptiToiminnotPanel on JPanel-elementti, joka pitää sisällään kontrollit reseptin
+ * skaalaukseen ja grammoiksi muuttamiseen.
  *
- * @author jtthaavi@cs
+ * @author Jari Haavisto
  */
 public class ReseptiToiminnotPanel extends JPanel {
 
-    public ReseptiToiminnotPanel(JButton muutaGrammoiksiBtn, JTextField uusiTilavuusField, 
-            JComboBox uusiTilavuusCombo, JButton skaalaaBtn) {
-        muutaGrammoiksiBtn.setText("Muuta resepti grammoiksi");
-        uusiTilavuusField.setText(" ");
-        uusiTilavuusField.setColumns(5);
-        uusiTilavuusCombo.removeAllItems();
-        uusiTilavuusCombo.addItem("l");
-        uusiTilavuusCombo.addItem("gal");
-        skaalaaBtn.setText("Skaalaa");
+    public ReseptiToiminnotPanel(Komponentit k) {
+        k.muutaGrammoiksiBtn.setText("Muuta resepti grammoiksi");
+        k.uusiTilavuusField.setText(" ");
+        k.uusiTilavuusField.setColumns(5);
+        k.uusiTilavuusCombo.removeAllItems();
+        k.uusiTilavuusCombo.addItem("l");
+        k.uusiTilavuusCombo.addItem("gal");
+        k.skaalaaBtn.setText("Skaalaa");
         
-        this.add(muutaGrammoiksiBtn);
+        this.add(k.muutaGrammoiksiBtn);
         this.add(new JLabel("Skaala resepti kokoon"));
-        this.add(uusiTilavuusField);
-        this.add(uusiTilavuusCombo);
-        this.add(skaalaaBtn);
+        this.add(k.uusiTilavuusField);
+        this.add(k.uusiTilavuusCombo);
+        this.add(k.skaalaaBtn);
     }
-
-//    public JPanel konversioPanel() {
-//        JPanel panel = new JPanel();
-//        panel.add(new JLabel("Skaalaa resepti kokoon"));
-//        uusiTilavuusField = new JTextField(" ", 5);
-//        panel.add(uusiTilavuusField);
-//        uusiTilavuusCombo = new JComboBox(tilavuusLista);
-//        panel.add(uusiTilavuusCombo);
-//        JButton skaalaaBtn = new JButton("Skaalaa!");
-//        skaalaaBtn.addActionListener(new java.awt.event.ActionListener() {
-//            public void actionPerformed(java.awt.event.ActionEvent evt) {
-//                skaalaaResepti();
-//            }
-//        });
-//
-//        panel.add(skaalaaBtn);
-//
-////        panel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-//        return panel;
-//    }
-//    
-//        private JPanel reseptiToiminnotPanel() {
-//        JPanel reseptiToiminnot = new JPanel();
-//
-//        JButton muutaGrammoiksiBtn = new JButton("Muuta resepti grammoiksi");
-//        muutaGrammoiksiBtn.addActionListener(new java.awt.event.ActionListener() {
-//            public void actionPerformed(java.awt.event.ActionEvent evt) {
-//                muutaGrammoiksiPainettu();
-//            }
-//        });
-//
-//        reseptiToiminnot.add(muutaGrammoiksiBtn);
-//        reseptiToiminnot.add(konversioPanel());
-//        return reseptiToiminnot;
-//    }
 }

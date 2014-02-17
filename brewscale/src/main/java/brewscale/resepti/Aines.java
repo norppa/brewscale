@@ -9,7 +9,7 @@ package brewscale.resepti;
  *
  * @author jtthaavi@cs
  */
-public class Aines implements RaakaAine {
+public abstract class Aines {
 
     private String nimi, yksikko;
     private double maara;

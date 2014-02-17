@@ -9,19 +9,21 @@ package brewscale.gui;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-/**
+/**TiedostoToiminnotPanel on JPanel-elementti, joka pitää sisällään "Uusi Resepti", 
+ * "Avaa Resepti" ja "Tallenna Resepti" -nappulat. 
+ * 
  *
- * @author jtthaavi@cs
+ * @author Jari Haavisto
  */
 public class TiedostoToiminnotPanel extends JPanel {
     
-    public TiedostoToiminnotPanel(JButton uusi, JButton avaa, JButton tallenna) {
-        uusi.setText("Uusi Resepti");
-        avaa.setText("Avaa Resepti");
-        tallenna.setText("Tallenna Resepti");
-        this.add(uusi);
-        this.add(avaa);
-        this.add(tallenna);
+    public TiedostoToiminnotPanel(Komponentit k) {
+        k.uusiBtn.setText("Uusi Resepti");
+        k.avaaBtn.setText("Avaa Resepti");
+        k.tallennaBtn.setText("Tallenna Resepti");
+        this.add(k.uusiBtn);
+        this.add(k.avaaBtn);
+        this.add(k.tallennaBtn);
     }
     
 }
