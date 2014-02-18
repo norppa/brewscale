@@ -151,8 +151,6 @@ public class BrewscaleGUI implements Runnable {
             }
             brewscale.setResepti(avattuResepti);
             uudistaNakyma();
-
-            System.out.println(brewscale.getResepti().getMuistiinpanot());
         }
     }
 
