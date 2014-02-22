@@ -6,6 +6,7 @@
 package brewscale.brewscale;
 
 import brewscale.resepti.*;
+import java.io.File;
 import junit.framework.TestCase;
 
 /**
@@ -33,39 +34,32 @@ public class BrewscaleTest extends TestCase {
     protected void tearDown() throws Exception {
         super.tearDown();
     }
-
-    public void testSkaalainToimiiYkkostaSuuremmilla() {
-
-        brewscale.skaalaa(2);
-        assertEquals(20.00, brewscale.getResepti().getKoko());
-    }
-
-    public void testSkaalainToimiiYkkostaPienemmilla() {
-        brewscale.skaalaa(0.5);
-        assertEquals(5.00, brewscale.getResepti().getKoko());
-    }
-
-    public void testSkaalainToimiiNollaaPienemmilla() {
-        brewscale.skaalaa(-0.1);
-        assertEquals(10.00, brewscale.getResepti().getKoko());
+    
+    public void testKonstruktoriToimiiIlmanReseptia() {
+        Brewscale br = new Brewscale();
+        assertTrue(br != null);
     }
     
-    public void testSkaalainToimiiAineksille() {
-        lisaaAineita("g");
-        brewscale.skaalaa(1.5);
-        for (MuuAines a : brewscale.getResepti().getMuutAinekset()) {
-            assertEquals(15, a.getMaara(), 0.001);
-        }
+    public void testKonstruktoriToimiiReseptilla() {
+        assertTrue( brewscale != null);
     }
     
-    public void testSkaalainToimiiAineksilleNollalla() {
-        lisaaAineita("g");
-        brewscale.skaalaa(0);
-        for (MuuAines a: brewscale.getResepti().getMuutAinekset()) {
-            assertEquals(0, a.getMaara(), 0.001);
-        }
+    public void testTallennaLuoTiedoston() {
+        brewscale.tallenna();
+        String path = "./reseptit/" + resepti.toString();
+        File file = new File(path);
+        assertTrue(file.exists());
+        file.delete();
     }
-    
+
+    /*
+    Testi olettaa, että reseptit-kansiossa on olemassa validi reseptitiedosto "Esimerkkiresepti (10 l)".
+    */
+    public void testLataaAktivoiReseptin() {
+       brewscale.lataa("Esimerkkiresepti (10.0 l)");
+       assertEquals("Esimerkkiresepti", brewscale.getResepti().getNimi());
+    }
+
     public void testSkaalainToimiiVaarillaYksikoilla() {
         brewscale.skaalaa(20, "h");
         assertEquals(10.0, brewscale.getResepti().getKoko(), 0.001);
@@ -75,11 +69,25 @@ public class BrewscaleTest extends TestCase {
         brewscale.skaalaa(20, "l");
         assertEquals(20.0, brewscale.getResepti().getKoko(), 0.001);
     }
-
+    
+    public void testSkaalainMuuttaaAinesmaarat() {
+        lisaaAineita("g");
+        brewscale.skaalaa(8, "l");
+        assertEquals(8, resepti.getMaltaat().get(0).getMaara(), 0.001);
+        assertEquals(8, resepti.getHumalat().get(0).getMaara(), 0.001);
+        assertEquals(8, resepti.getMuutAinekset().get(0).getMaara(), 0.001);
+    }
+    
+    public void testSkaalainMuuttaaYksikon() {
+        lisaaAineita("g");
+        brewscale.skaalaa(8, "gal");
+        assertTrue(brewscale.getResepti().getKokoYksikko().equals("gal"));
+    }
+    
     private void lisaaAineita(String yksikko) {
         resepti.lisaaMallas(new Mallas("Mallas 1", 10, yksikko));
         resepti.lisaaHumala(new Humala("Humala 1", 10, yksikko, 5.0));
-        resepti.lisaaMuuAines(new MuuAines("Aines 1", 10, yksikko));
+        resepti.lisaaMuuAines(new MuuAines("Muu Aines 1", 10, yksikko));
     }
 
     public void testMuutaGrammoiksiToimiiGrammoilla() {
@@ -122,6 +130,18 @@ public class BrewscaleTest extends TestCase {
         lisaaAineita("lbs");
         brewscale.muutaGrammoiksi();
         assertEquals(4536.0, brewscale.getResepti().getMaltaat().get(0).getMaara());
+    }
+    
+    public void testReseptiTeksti() {
+        lisaaAineita("g");
+        brewscale.getResepti().setOhje("Testiohje");
+        brewscale.getResepti().setMuistiinpanot("Testimuistiinpanot");
+        String toivottu = "Testiresepti (10.0 l)\n\n" +
+                "Maltaat:\n10.0 g Mallas 1\n\n" +
+                "Humalat:\n10.0 g Humala 1 (5.0%AA)\n\n" +
+                "Muut ainekset:\n10.0 g Muu Aines 1\n\n" +
+                "Ohjeet:\nTestiohje\n\nMuistiinpanoja:\nTestimuistiinpanot";
+        assertTrue(toivottu.equals(brewscale.reseptiTeksti()));
     }
 
 }

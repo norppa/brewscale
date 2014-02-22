@@ -7,8 +7,9 @@
 package brewscale.resepti;
 
 /**
+ * Jokaisesta reseptiin käytettävästä maltaasta tehdään oma Mallas-luokan edustaja.
  *
- * @author jtthaavi@cs
+ * @author Jari Haavisto
  */
 public class Mallas extends Aines {
     

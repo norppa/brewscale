@@ -44,8 +44,19 @@ public class ReseptiTest extends TestCase {
         assertTrue(resepti.getNimi().equals("Uusi resepti"));
     }
 
-    public void testUudenReseptinKokoOikein() {
-        assertEquals(10.0, resepti.getKoko());
+    public void testUudenReseptinKokoPositiivinen() {
+        resepti = new Resepti("", 1, "l");
+        assertEquals(1.0, resepti.getKoko());
+    }
+
+    public void testUuderReseptinKokoNolla() {
+        resepti = new Resepti("", 0, "l");
+        assertEquals(0.0, resepti.getKoko(), 0.001);
+    }
+
+    public void testUudenReseptinKokoNegatiivinen() {
+        resepti = new Resepti("", -1, "l");
+        assertEquals(0.0, resepti.getKoko(), 0.001);
     }
 
     public void testUusiReseptiToimiiNegatiivisilla() {
@@ -89,6 +100,18 @@ public class ReseptiTest extends TestCase {
         assertTrue(resepti.getMaltaat().contains(m));
     }
 
+    public void testMaltaanLisaysEiLisaaVirheellisellaMaaralla() {
+        resepti.lisaaMallas("Virhemallas", "ei numero", "g");
+        boolean mallasLoytyy = false;
+        for (Mallas m : resepti.getMaltaat()) {
+            if (m.getNimi().equals("Virhemallas")) {
+                mallasLoytyy = true;
+                break;
+            }
+        }
+        assertFalse(mallasLoytyy);
+    }
+
     public void testMaltaanLisaysToimiiTekstilla() {
         resepti.lisaaMallas("Testimallas", "200", "g");
         boolean mallasLoytyy = false;
@@ -119,6 +142,19 @@ public class ReseptiTest extends TestCase {
         assertTrue(humalaLoytyy);
     }
 
+    public void testHumalanLisaysEiLisaaVirheellisellaMaaralla() {
+        resepti.lisaaHumala("Virhehumala", "ei numero", "g", "0.5");
+        resepti.lisaaHumala("Virhehumala", "10", "g", "ei numero");
+        boolean humalaLoytyy = false;
+        for (Humala h : resepti.getHumalat()) {
+            if (h.getNimi().equals("Virhehumala")) {
+                humalaLoytyy = true;
+                break;
+            }
+        }
+        assertFalse(humalaLoytyy);
+    }
+
     public void testKorvaaHumalaToimii() {
         resepti.lisaaHumala(new Humala("Humala 1", 50, "g", 5.0));
         resepti.lisaaHumala(new Humala("Humala 2", 50, "g", 5.0));
@@ -145,8 +181,21 @@ public class ReseptiTest extends TestCase {
         }
         assertTrue(ainesLoytyy);
     }
-    
+
+    public void testMuuAinesLisaysEiLisaaVirheellisellaMaaralla() {
+        resepti.lisaaMuuAines("Virheaines", "ei numero", "g");
+        boolean ainesLoytyy = false;
+        for (MuuAines m : resepti.getMuutAinekset()) {
+            if (m.getNimi().equals("Virheaines")) {
+                ainesLoytyy = true;
+                break;
+            }
+        }
+        assertFalse(ainesLoytyy);
+    }
+
     public void testTyhjennaAineksetToimii() {
+        lisaaAineita("g");
         resepti.tyhjennaAinekset();
         assertTrue(resepti.getAinekset().isEmpty());
         assertTrue(resepti.getMaltaat().isEmpty());
@@ -160,5 +209,11 @@ public class ReseptiTest extends TestCase {
 
     public void testToStringToimii() {
         assertEquals("Testiresepti (10.0 l)", resepti.toString());
+    }
+
+    private void lisaaAineita(String yksikko) {
+        resepti.lisaaMallas(new Mallas("Mallas 1", 10, yksikko));
+        resepti.lisaaHumala(new Humala("Humala 1", 10, yksikko, 5.0));
+        resepti.lisaaMuuAines(new MuuAines("Muu Aines 1", 10, yksikko));
     }
 }

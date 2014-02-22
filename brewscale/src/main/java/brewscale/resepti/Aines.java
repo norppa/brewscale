@@ -6,8 +6,9 @@
 package brewscale.resepti;
 
 /**
+ * Abstrakti yläluokka, jonka kaikki erilliset ainekset perivät.
  *
- * @author jtthaavi@cs
+ * @author Jari Haavisto
  */
 public abstract class Aines {
 
@@ -21,10 +22,6 @@ public abstract class Aines {
         }
         this.maara = maara;
         this.yksikko = yksikko;
-    }
-
-    public Aines(String nimi, double maara) {
-        this(nimi, maara, "g");
     }
     
     public void setMaara(double uusiMaara) {

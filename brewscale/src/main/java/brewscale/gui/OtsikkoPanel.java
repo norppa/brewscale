@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 
 /**OtsikkoPanel on JPanel-elementti, joka pitää sisällään otsikkokuvan. 
  *
- * @author jtthaavi@cs
+ * @author Jari Haavisto
  */
 public class OtsikkoPanel extends JPanel {
 

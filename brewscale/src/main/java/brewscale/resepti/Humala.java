@@ -7,8 +7,9 @@
 package brewscale.resepti;
 
 /**
+ * Jokaisesta reseptiin käytettävästä humalalisäyksestä tehdään oma Humala-luokan edustaja.
  *
- * @author jtthaavi@cs
+ * @author Jari Haavisto
  */
 public class Humala extends Aines {
     
@@ -27,6 +28,11 @@ public class Humala extends Aines {
         return alphaAcid;
     }
     
+    /**
+     * Laskee humalan AAU-arvon. Käytetään humalien korvaamisessa.
+     * 
+     * @return AAU-arvo
+     */
     public double laskeAAU() {
         double unssiMaara = this.getMaara();
         if (this.getYksikko().equals("g")){

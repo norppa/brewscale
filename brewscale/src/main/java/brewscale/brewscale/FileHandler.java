@@ -29,6 +29,17 @@ public class FileHandler {
     public FileHandler() {
         hakemisto = "./reseptit/";
     }
+    
+    /**
+     * Tarkistaa onko parametrina annetun niminen tiedosto olemassa reseptikansiossa.
+     * 
+     * @param nimi Tiedoston nimi.
+     * @return True jos tiedosto on olemassa, muuten false.
+     */
+    public boolean onkoOlemassa(String nimi) {
+        File tiedosto = new File(hakemisto + nimi);
+        return tiedosto.exists();
+    }
 
     /**
      * Tallentaa tiedostoon annetun tekstin. Jos tiedosto on jo olemassa, se

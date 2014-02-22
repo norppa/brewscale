@@ -8,19 +8,48 @@ package brewscale.resepti;
 import java.util.ArrayList;
 
 /**
+ * Resepti-olio pitää sisällään kaikki tiedot yhdestä reseptistä.
  *
- * @author jtthaavi@cs
+ * @author Jari Haavisto
  */
 public class Resepti {
 
-    private String nimi, muistiinpanot, ohje;
+    /**
+     * Reseptin nimi.
+     */
+    private String nimi;
+    /**
+     * Reseptin koko.
+     */
     private double koko;
+    /**
+     * Yksikkö, jossa reseptin koko on ilmoitettu.
+     */
     private String kokoYksikko;
-//    private ArrayList<RaakaAine> maltaat;
+    /**
+     * Lista reseptissä käytettävistä maltaista.
+     */
     private ArrayList<Mallas> maltaat;
+    /**
+     * Lista reseptissä käytettävistä humalista.
+     */
     private ArrayList<Humala> humalat;
+    /**
+     * Lista reseptissä käytettävistä muista aineista.
+     */
     private ArrayList<MuuAines> muutAinekset;
+    /**
+     * Lista kaikista reseptin aineista. Pitää sisällään kaikki maltaat, humalat ja muut aineet.
+     */
     private ArrayList<Aines> ainekset;
+    /**
+     * Reseptin ohje, eli varsinainen reseptiosa.
+     */
+    private String ohje;
+    /**
+     * Reseptiin tehdyt muistiinpanot.
+     */
+    private String muistiinpanot;
 
     public Resepti(String nimi, double koko, String kokoYksikko) {
         this.nimi = nimi;
@@ -82,8 +111,11 @@ public class Resepti {
      * @param yksikko Yksikkö, jonka avulla määrä on esitetty.
      */
     public void lisaaMallas(String nimi, String maara, String yksikko) {
-        Mallas lisattava = new Mallas(nimi, Double.parseDouble(maara), yksikko);
-        lisaaMallas(lisattava);
+        Double maaraDbl = muutaNumeroksi(maara);
+        if (maaraDbl == null) {
+            return;
+        }
+        lisaaMallas(new Mallas(nimi, maaraDbl, yksikko));
     }
 
     /**
@@ -106,34 +138,33 @@ public class Resepti {
      * @param alpha Humalan alpha-happopitoisuus (%).
      */
     public void lisaaHumala(String nimi, String maara, String yksikko, String alpha) {
-        double maaraDbl = 0, alphaDbl = 0;
-        try {
-            maaraDbl = Double.parseDouble(maara);
-            alphaDbl = Double.parseDouble(alpha);
-        } catch (NumberFormatException e) {
+        Double maaraDbl = muutaNumeroksi(maara);
+        Double alphaDbl = muutaNumeroksi(alpha);
+        if (maaraDbl == null || alphaDbl == null) {
             return;
         }
-
         lisaaHumala(new Humala(nimi, maaraDbl, yksikko, alphaDbl));
     }
 
     /**
      * Korvaa reseptistä yhden humalan. Uuden humalan määrä lasketaan
      * automaattisesti siten että alpha-happojen määrä pysyy vakiona.
+     * 
+     * Ei implementoitu.
      *
      * @param numero Korvattavan humalan numero humalien listassa.
      * @param nimi Uuden humalan nimi.
      * @param alphaAcid Uuden humalan alpha-happopitoisuus (%).
      */
-    public void korvaaHumala(int numero, String nimi, double alphaAcid) {
-        double aau = humalat.get(numero).laskeAAU();
-        double maaraUnsseina = aau / alphaAcid;
-        double maara = maaraUnsseina * 28.3495231;
-        maara = Math.round(maara * 100) / 100;
-        Humala uusiHumala = new Humala(nimi, maara, "g", alphaAcid);
-        humalat.remove(numero);
-        humalat.add(numero, uusiHumala);
-    }
+//    public void korvaaHumala(int numero, String nimi, double alphaAcid) {
+//        double aau = humalat.get(numero).laskeAAU();
+//        double maaraUnsseina = aau / alphaAcid;
+//        double maara = maaraUnsseina * 28.3495231;
+//        maara = Math.round(maara * 100) / 100;
+//        Humala uusiHumala = new Humala(nimi, maara, "g", alphaAcid);
+//        humalat.remove(numero);
+//        humalat.add(numero, uusiHumala);
+//    }
 
     /**
      * Lisää aktiiviseen reseptiin uuden aineksen. Aines lisätään sekä muiden
@@ -145,16 +176,39 @@ public class Resepti {
         muutAinekset.add(lisattava);
         ainekset.add(lisattava);
     }
-
+    /**
+     * Luo uuden aineksen ja lisaa sen aktiiviseen reseptiin käyttäen metodia lisaaMuuAines(MuuAines)
+     * 
+     * @param nimi uuden aineksen nimi
+     * @param maara uuden aineksen määrä
+     * @param yksikko uuden aineksen yksikko
+     */
     public void lisaaMuuAines(String nimi, String maara, String yksikko) {
-        double maaraDbl = 0;
-        try {
-            maaraDbl = Double.parseDouble(maara);
-        } catch (NumberFormatException e) {
+        Double maaraDbl = muutaNumeroksi(maara);
+        if (maaraDbl == null) {
             return;
         }
-        lisaaMuuAines(new MuuAines(nimi, maaraDbl, yksikko));
+        MuuAines uusiAines = new MuuAines(nimi, maaraDbl, yksikko);
+        lisaaMuuAines(uusiAines);
     }
+
+    /**
+     * Tarkistaa, että annettu String voidaan muuttaa muotoon Double.
+     * 
+     * @param numero muutettava numero String-muodossa
+     * @return numero Double-muodossa tai null, mikäli muutosta ei voitu tehdä
+     */
+    private Double muutaNumeroksi(String numero) {
+        try {
+            return Double.parseDouble(numero);
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
+    /**
+     * Tyhjentää kaikki aineslistat
+     */
     public void tyhjennaAinekset() {
         maltaat.clear();
         humalat.clear();
@@ -206,9 +260,13 @@ public class Resepti {
         return ohje;
     }
 
+    /**
+     * Antaa String-muotoisen esityksen, jossa on reseptin nimi ja koko.
+     * 
+     * @return String-muotoinen esitys reseptistä.
+     */
     public String toString() {
-        String str = nimi + " (" + koko + " " + kokoYksikko + ")";
-        return str;
+        return nimi + " (" + koko + " " + kokoYksikko + ")";
     }
 
 }

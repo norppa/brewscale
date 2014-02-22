@@ -18,12 +18,30 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+/**
+ * BrewscaleGUI luo ja ylläpitää ohjelman graafista käyttöliittymää.
+ *
+ * @author Jari Haavisto
+ */
 public class BrewscaleGUI implements Runnable {
 
+    /**
+     * Tiedonsäilytysolio, jossa ovat tiedot kaikista käyttöliittymän osista
+     * joilla voi antaa syötettä ohjelmalle.
+     */
     private Komponentit k;
+    /**
+     * Ylimmän luokan JFrame-elementti.
+     */
     private JFrame frame;
-    private Brewscale brewscale;
+    /**
+     * Ylimmän luokan JPanel-elementti, johon komponentit sijoitetaan.
+     */
     private JPanel panel;
+    /**
+     * Ohjelman toiminnallisuudesta huolehtiva olio.
+     */
+    private Brewscale brewscale;
 
     public BrewscaleGUI(Brewscale brewscale) {
         this.brewscale = brewscale;
@@ -132,12 +150,36 @@ public class BrewscaleGUI implements Runnable {
 
     }
 
+    /**
+     * Kysyy käyttäjältä varmistuksen.
+     *
+     * @return 0 jos kyllä. 1 jos ei.
+     */
+    private int oletkoVarmaDialog() {
+        String[] options = {"Kyllä", "Peruuta"};
+        int valinta = JOptionPane.showOptionDialog(frame, "Tallentamattomat tiedot menetetään! Oletko varma?", "Varoitus",
+                JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+        return valinta;
+    }
+
+    /**
+     * Suoritetaan käyttäjän painaessa nappia "uusi resepti".
+     */
     private void uusiReseptiPainettu() {
+        if (oletkoVarmaDialog() == 1) {
+            return;
+        }
         brewscale.setResepti(new Resepti("", 0, "l"));
         uudistaNakyma();
     }
 
+    /**
+     * Suoritetaan käyttäjän painaessa nappia "avaa resepti".
+     */
     private void avaaReseptiPainettu() {
+        if (oletkoVarmaDialog() == 1) {
+            return;
+        }
         JFileChooser fc = new JFileChooser("./reseptit/");
         int rVal = fc.showOpenDialog(panel);
         if (rVal == JFileChooser.APPROVE_OPTION) {
@@ -154,6 +196,9 @@ public class BrewscaleGUI implements Runnable {
         }
     }
 
+    /**
+     * Suoritetaan käyttäjän painaessa nappia "tallenna resepti".
+     */
     private void tallennaReseptiPainettu() {
         if (!tarkistaMaaraMuotoilut()) {
             JOptionPane.showMessageDialog(frame, "Tarkista annetut ainesmäärät", "varoitus", JOptionPane.WARNING_MESSAGE);
@@ -161,10 +206,22 @@ public class BrewscaleGUI implements Runnable {
         }
         paivitaResepti();
         uudistaNakyma();
+        if (brewscale.onkoOlemassa(brewscale.getResepti().toString())) {
+            String[] options = {"Kyllä", "Peruuta"};
+            int vastaus = JOptionPane.showOptionDialog(frame, "Tiedosto on jo olemassa. Korvataanko?", "Varoitus", 
+                    JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+            if (vastaus == 1) {
+                return;
+            }
+        }
         brewscale.tallenna();
     }
 
+    /**
+     * Suoritetaan käyttäjän painaessa nappia "skaalaa resepti".
+     */
     private void skaalaaReseptiPainettu() {
+        paivitaResepti();
         try {
             double uusiTilavuus = Double.parseDouble(k.uusiTilavuusField.getText());
             String uusiYksikko = k.uusiTilavuusCombo.getSelectedItem().toString();
@@ -175,7 +232,11 @@ public class BrewscaleGUI implements Runnable {
         }
     }
 
+    /**
+     * Suoritetaan käyttäjän painaessa nappia "muuta grammoiksi".
+     */
     private void muutaGrammoiksiPainettu() {
+        paivitaResepti();
         brewscale.muutaGrammoiksi();
         uudistaNakyma();
     }
@@ -189,7 +250,6 @@ public class BrewscaleGUI implements Runnable {
         try {
             tilavuus = Double.parseDouble(k.tilavuusField.getText());
         } catch (NumberFormatException e) {
-            System.out.println("Satsin koko ei kelpaa");
             return;
         }
         Resepti resepti = brewscale.getResepti();
@@ -202,6 +262,7 @@ public class BrewscaleGUI implements Runnable {
             for (int j = k.nimiListat[i].size() - 1; j > 0; j--) {
                 String nimi = k.nimiListat[i].get(j).getText();
                 String maara = k.maaraListat[i].get(j).getText();
+                maara = maara.replaceAll(",", ".");
                 String yksikko = k.yksikkoListat[i].get(j).getSelectedItem().toString();
                 if (!maara.isEmpty()) {
                     if (i == 0) {
@@ -232,11 +293,13 @@ public class BrewscaleGUI implements Runnable {
             for (int i = 0; i < 3; i++) {
                 for (int j = k.maaraListat[i].size() - 1; j > 0; j--) {
                     String numero = k.maaraListat[i].get(j).getText();
+                    numero = numero.replaceAll(",", ".");
                     if (!numero.equals("")) {
                         Double.parseDouble(numero);
-                    }
-                    if (i == 1) {
-                        Double.parseDouble(k.alphaMaaraLista.get(j).getText());
+
+                        if (i == 1) {
+                            Double.parseDouble(k.alphaMaaraLista.get(j).getText());
+                        }
                     }
                 }
             }

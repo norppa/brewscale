@@ -6,8 +6,10 @@
 package brewscale.resepti;
 
 /**
+ * Jokaisesta reseptiin käytettävästä aineksesta, joka ei ole mallas tai humala, tehdään oma
+ * MuuAines-luokan edustaja.
  *
- * @author jtthaavi@cs
+ * @author Jari Haavisto
  */
 public class MuuAines extends Aines {
 

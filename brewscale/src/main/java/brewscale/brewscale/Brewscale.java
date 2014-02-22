@@ -38,6 +38,11 @@ public class Brewscale {
     public Resepti getResepti() {
         return resepti;
     }
+    
+    public boolean onkoOlemassa(String nimi) {
+        FileHandler fileHandler = new FileHandler();
+        return fileHandler.onkoOlemassa(nimi);
+    }
 
     /**
      * Tallentaa aktiivisen reseptin tiedostoon. Käyttää FileHandler-luokkaa.
@@ -55,26 +60,9 @@ public class Brewscale {
      * @param tiedostonimi Ladattavan tiedoston nimi.
      */
     public void lataa(String tiedostonimi) {
-        FileHandler bw = new FileHandler();
-        resepti = bw.lueResepti(tiedostonimi);
+        FileHandler fileHandler = new FileHandler();
+        resepti = fileHandler.lueResepti(tiedostonimi);
     }
-
-    /**
-     * Metodi skaalaa reseptin kaikki raaka-aineet annetun kertoimen mukaisesti.
-     * Mikäli kerroin on negatiivinen, metodi ei tee mitään
-     *
-     * @param kerroin Annettu kerroin
-     */
-//    public void skaalaa(double kerroin) {
-//        if (kerroin < 0) {
-//            return;
-//        }
-//
-//        resepti.setKoko(resepti.getKoko() * kerroin);
-//        for (Aines a : resepti.getAinekset()) {
-//            a.setMaara(a.getMaara() * kerroin);
-//        }
-//    }
 
     /**
      * Metodi skaalaa aktiivisen reseptin kaikki raaka-aineet annettuun
@@ -84,6 +72,9 @@ public class Brewscale {
      * @param loppuYksikko yksikkö, jolla lopputilavuus on annettu
      */
     public void skaalaa(double loppuTilavuus, String loppuYksikko) {
+        if (!loppuYksikko.equals("l") && !loppuYksikko.equals("gal")) {
+            return;
+        }
         double kerroin = loppuTilavuus / resepti.getKoko() / yksikkoMuuntoKerroin(resepti.getKokoYksikko(), loppuYksikko);
         resepti.setKoko(loppuTilavuus);
         resepti.setKokoYksikko(loppuYksikko);
