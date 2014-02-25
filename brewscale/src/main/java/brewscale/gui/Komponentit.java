@@ -20,16 +20,52 @@ import javax.swing.JTextField;
  */
 public class Komponentit {
 
+    /**
+     * Ohjelman käyttämät tilavuudet ja painot.
+     */
     public final String[] tilavuusLista = new String[]{"l", "gal"},
             painoLista = new String[]{"g", "oz", "lbs"};
+    /**
+     * Aktiivinen resepti.
+     */
     public Resepti resepti;
+    /**
+     * Ohjelmassa esillä olevat nappulat.
+     */
     public JButton uusiBtn, avaaBtn, tallennaBtn, muutaGrammoiksiBtn, skaalaaBtn;
+    /**
+     * Ohjelmassa näkyvät tekstikentätä reseptin nimelle, tilavuudelle ja
+     * skaalattaessa tarvittavalle uudelle tilavuudelle.
+     */
     public JTextField nimiField, tilavuusField, uusiTilavuusField;
+    /**
+     * Ohjelmassa näkyvät pudotusvalikot tilavuuden ja uuden tilavuuden yksiköille.
+     */
     public JComboBox tilavuusCombo, uusiTilavuusCombo;
+    /**
+     * TextAreat, joihin kirjoitetaan reseptin ohje ja muistiinpanot.
+     */
     public JTextArea ohjeetArea, muistiinpanotArea;
+    /**
+     * Kolmipaikkainen (maltaat, humalat ja muut) array, joka pitää sisällään 
+     * ArrayList-olioita, joihin puolestaan on tallennettu ohjelmassa näkyvät 
+     * tekstikentät raaka-aineiden nimille ja määrille.
+     */
     public ArrayList<JTextField>[] nimiListat, maaraListat;
+    /**
+     * Lista tekstikentistä, joihin syötetään humalien alphahappopitoisuudet.
+     */
     public ArrayList<JTextField> alphaMaaraLista;
+    /**
+     * Kolmipaikkainen (maltaat, humalat, muut) array, joka pitää sisällään
+     * ArrayList-olioita, joihin puolestaan on tallennettu ohjelmassa näkyvät
+     * tiputusvalikot raaka-aineiden yksiköille.
+     */
     public ArrayList<JComboBox>[] yksikkoListat;
+    /**
+     * Raaka-ainelistojen viimeisillä riveillä olevat kuuntelijat, jotka pitävät
+     * huolen siitä, että uusi rivi luodaan tarvittaessa.
+     */
     public FocusListener[] vikanRivinKuuntelijat;
 
     public Komponentit(Resepti resepti) {

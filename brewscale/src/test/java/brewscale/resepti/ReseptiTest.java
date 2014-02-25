@@ -155,14 +155,14 @@ public class ReseptiTest extends TestCase {
         assertFalse(humalaLoytyy);
     }
 
-    public void testKorvaaHumalaToimii() {
-        resepti.lisaaHumala(new Humala("Humala 1", 50, "g", 5.0));
-        resepti.lisaaHumala(new Humala("Humala 2", 50, "g", 5.0));
-        resepti.lisaaHumala(new Humala("Humala 3", 50, "g", 5.0));
-        resepti.korvaaHumala(1, "Humala 4", 10);
-        assertEquals("Humala 4", resepti.getHumalat().get(1).getNimi());
-        assertEquals(25.0, resepti.getHumalat().get(1).getMaara());
-    }
+//    public void testKorvaaHumalaToimii() {
+//        resepti.lisaaHumala(new Humala("Humala 1", 50, "g", 5.0));
+//        resepti.lisaaHumala(new Humala("Humala 2", 50, "g", 5.0));
+//        resepti.lisaaHumala(new Humala("Humala 3", 50, "g", 5.0));
+//        resepti.korvaaHumala(1, "Humala 4", 10);
+//        assertEquals("Humala 4", resepti.getHumalat().get(1).getNimi());
+//        assertEquals(25.0, resepti.getHumalat().get(1).getMaara());
+//    }
 
     public void testAineksenLisaysToimiiOliolla() {
         MuuAines a = new MuuAines("Aines", 5.0);

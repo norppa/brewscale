@@ -156,15 +156,15 @@ public class Resepti {
      * @param nimi Uuden humalan nimi.
      * @param alphaAcid Uuden humalan alpha-happopitoisuus (%).
      */
-//    public void korvaaHumala(int numero, String nimi, double alphaAcid) {
-//        double aau = humalat.get(numero).laskeAAU();
-//        double maaraUnsseina = aau / alphaAcid;
-//        double maara = maaraUnsseina * 28.3495231;
-//        maara = Math.round(maara * 100) / 100;
-//        Humala uusiHumala = new Humala(nimi, maara, "g", alphaAcid);
-//        humalat.remove(numero);
-//        humalat.add(numero, uusiHumala);
-//    }
+    public void korvaaHumala(int numero, String nimi, double alphaAcid) {
+        double aau = humalat.get(numero).laskeAAU();
+        double maaraUnsseina = aau / alphaAcid;
+        double maara = maaraUnsseina * 28.3495231;
+        maara = Math.round(maara * 100) / 100;
+        Humala uusiHumala = new Humala(nimi, maara, "g", alphaAcid);
+        humalat.remove(numero);
+        humalat.add(numero, uusiHumala);
+    }
 
     /**
      * Lisää aktiiviseen reseptiin uuden aineksen. Aines lisätään sekä muiden

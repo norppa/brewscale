@@ -1,0 +1,32 @@
+BrewScale - Käyttöohjeet
+
+BrewScale on kotioluen panijan työkalu, joka ottaa internetistä löytämäsi reseptit ja muuttaa ne sinulle sopivan kokoisiksi. Lisäksi BrewScale muuttaa käsittämättömät yksiköt arkipäiväiseen SI-järjestelmään.
+
+Aloitus
+
+Käynnistäessäsi ohjelman pääikkunaan aukeaa tyhjä resepti. Pääikkuna on jaettu kolmeen osaan: Tiedostotoiminnot ("Uusi Resepti", "Avaa Resepti" ja "Tallenna Resepti"), reseptitoiminnot ("Muuta resepti grammoiksi" ja "Skalaa resepti") sekä reseptin osat (reseptin perustiedot, maltaat, humalat, muut ainekset, ohjeet sekä muistiinpanot).
+
+Reseptin kirjoittaminen
+
+Reseptin kirjoittaminen on yksinkertaista. Kirjoita reseptille nimi ja koko. Lisää raaka-aineita (maltaat, humalat ja muut ainekset) haluamasi määrä. Muista merkitä myös tarvitsemasi määrät! Mikäli raaka-aineella ei ole määrää, BrewScale olettaa, että olet halunnut poistaa kyseisen aineksen. Mikäli et tiedä määrää, voit merkata määräksi 0 (nolla), jolloin aines ei poistu listasta. Humalia lisätessä sinun tulee myös syöttää humalan alphahappopitoisuus. BrewScale luo automaattisesti lisää raaka-ainekenttiä kun olet täyttänyt olemassaolevat. Lopuksi kirjoita ohjeeseen muut tarvittavat tiedot (mäskäysaika ja -lämpötila, hiiva, käymislämpötila jne) ja halutessasi lisää muistiinpanoja.
+
+Uusi resepti
+
+Mikäli haluat aloittaa uuden reseptin, paina "Uusi Resepti" -nappulaa. Ohjelma varoittaa, että tallentamattomat tiedot menetetään. Jos haluat varmasti aloittaa alusta, vastaa "Kyllä". Ohjelma palaa alkutilaan.
+
+Reseptin avaaminen
+
+BrewScalen mukana tulee muutama resepti, joiden avulla voit kokeilla kotioluen tekoa tai ohjelman toimintaa. Avataksesi reseptin, paina "Avaa Resepti" -nappulaa. Ohjelma varoittaa, että tallentamattomat tiedot menetetään. Mikäli haluat jatkaa, paina "Kyllä" ja pääset valitsemaan haluamasi reseptin. Mikäli olet tallentanut omia reseptejä, ne löytyvät myös tästä kansiosta.
+
+Reseptin tallettaminen
+
+Kun olet luonut uuden reseptin tai muokannut olemassaolevaa, halut toki tallettaa muutokset. Paina tällöin "Tallenna Resepti" -nappulaa. Mikäli tiedosto on jo olemassa, ohjelma kysyy varmistuksen ylikirjoittamisesta. Huomaa, että reseptit nimetään automaattisesti reseptin nimen ja koon mukaan. Mikäli haluat useamman samankokoisen version samasta reseptistä, anna joaiselle uniikki nimi, esim "Keskiketterä 1", "Keskiketterä 2" jne.
+Mikäli aikaisempaa tiedostoa ei ole tai vastaat ylikirjoituskyselyyn myöntävästi, resepti tallennetaan reseptit-kansioon, josta voit sen myöhemmin käydä uudestaan avaamassa. Reseptit ovat kansiossa tekstimuotoisena, joten voit halutessasi myös printata reseptin jääkaapin oveen olutsessiota varten.
+
+Reseptin muuttaminen grammoiksi
+
+Kun olet kopioinut amerikkalaiselta foorumilta reseptin, jonka haluat itse valmistaa, on usein käytännöllistä muuttaa resepti grammoiksi. Paina siis "Muuta resepti grammoiksi" -nappulaa. Kaikki ainesosat muuttuvat grammamuotoon. Reseptin tilavuudelle ei tapahdu tässä operaatiossa mitään (katso reseptin skaalaaminen). BreswScale ei myöskään koske ohjeessa tai muistiinpanoissa oleviin lukuihin millään tavalla. Muista tallettaa resepti tehtyäsi muutoksia!
+
+Reseptin skaalaaminen
+
+Kun reseptisi on muuten valmis, haluat skaalata sen kokoon, joka sopii sinun laitteistollesi parhaiten. Syötä siis haluamasi satsin koko kenttään "Skaalaa resepti kokoon" ja paina "Skaalaa" -nappulaa. Skaalaus on lineaarinen, joten jos haluat muuntaa useamman hehtolitran satsin sixpäk-kokoon, saatat joutua viilaamaan reseptiä hieman käsin. Muista tallettaa resepti tehtyäsi muutoksia!

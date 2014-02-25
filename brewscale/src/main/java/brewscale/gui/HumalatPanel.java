@@ -8,6 +8,8 @@ package brewscale.gui;
 import brewscale.resepti.Humala;
 import java.awt.Dimension;
 import java.util.ArrayList;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -62,7 +64,7 @@ public class HumalatPanel extends AinesPanel {
         k.nimiListat[1].add(0, new JTextField(18));
         k.maaraListat[1].add(0, new JTextField(6));
         k.yksikkoListat[1].add(0, new JComboBox(k.painoLista));
-
+        
         uusiPaneeli.add(k.nimiListat[1].get(0));
         uusiPaneeli.add(k.maaraListat[1].get(0));
         uusiPaneeli.add(k.yksikkoListat[1].get(0));
