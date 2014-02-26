@@ -57,7 +57,7 @@
                     <configuration>
                         <transformers>
                             <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                <mainClass>javalabra.Main</mainClass>
+                                <mainClass>brewscale.brewscale.App</mainClass>
                             </transformer>
                         </transformers>
                     </configuration>
